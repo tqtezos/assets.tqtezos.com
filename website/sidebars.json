@@ -1,0 +1,44 @@
+{
+  "docs": {
+    "Digital Assets on Tezos": ["intro"],
+    "Setup": [
+      "setup/1-tezos-client",
+      "setup/2-sandbox"
+    ],
+    "Token Contracts": [
+      {
+        "type": "subcategory",
+        "label": "FA1.2",
+        "ids": [
+          "token-contracts/fa12/1-fa12-intro",
+          "token-contracts/fa12/2-fa12-ligo",
+          "token-contracts/fa12/3-fa12-lorentz"
+        ]
+      },
+      {
+        "type": "subcategory",
+        "label": "FA2",
+        "ids": [
+          "token-contracts/fa2/1-fa2-smartpy"
+        ]
+      },
+      {
+        "type": "subcategory",
+        "label":"Specialized Multisig",
+        "ids": [
+          "token-contracts/multisig-specialized/1-multisig-specialized-intro",
+          "token-contracts/multisig-specialized/2-originate-and-use-multisig-contract"
+        ]
+      }
+    ],
+    "Oracle": ["oracle"],
+    "Run a Public Node with AWS Cloud": [
+      "run-a-node/1-run-a-node-intro",
+      "run-a-node/2-deploy-vpc-cf",
+      "run-a-node/3-keypair-github-key",
+      "run-a-node/4-tezos-updater",
+      "run-a-node/5-tezos-nodes",
+      "run-a-node/6-confirm-nodes"
+    ]
+  }
+}

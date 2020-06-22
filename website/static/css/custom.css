@@ -1,0 +1,246 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/* your custom css */
+
+:root {
+  --color-main-background: rgb(239, 242, 248);
+  --color-primary: rgb(44, 125, 247);
+  --color-secondary: #052158;
+  --color-shadow-dark: #00000040;
+  --color-shadow-light: #e2e9ee;
+  --color-footer-background: #191414;
+}
+
+@font-face {
+  font-family: "Laca";
+  src: url("/fonts/Laca-Regular.eot"); /* IE9 Compat Modes */
+  src: url("/fonts/Laca-Regular.eot?#iefix") format("embedded-opentype"),
+    /* IE6-IE8 */ url("/fonts/Laca-Regular.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("/fonts/Laca-Regular.woff") format("woff"),
+    /* Pretty Modern Browsers */ url("/fonts/Laca-Regular.ttf")
+      format("truetype"); /* Safari, Android, iOS */
+  fallback: sans-serif;
+}
+
+body,
+html {
+  font-family: "Roboto", -apple-system, sans-serif;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+blockquote {
+  color: var(--color-secondary);
+  opacity: 0.8;
+  background-color: white;
+  border-left: 8px solid var(--color-primary);
+  box-shadow: 1px 2px 2px 3px var(--color-shadow-light);
+}
+
+button,
+.button {
+  padding: 0.75em 2.25em;
+  border-radius: 6.25rem;
+}
+
+code,
+.hljs {
+  background-color: var(--color-main-background); /*rgb(240, 240, 245);*/
+}
+
+/* Header */
+.fixedHeaderContainer {
+  background-color: white;
+  box-shadow: 0px 3px 6px var(--color-shadow-light);
+}
+
+.fixedHeaderContainer header .logo {
+  height: 75%;
+  margin-right: 1.5rem;
+  height: 100%;
+}
+
+.fixedHeaderContainer header .headerTitleWithLogo {
+  /* color: var(--color-secondary); */
+  /* font-size: 1.5rem;
+    line-height: 1.6rem;
+    margin: 0;
+    margin-top: .25rem;
+    z-index: 9999;
+    width: 12em;
+    align-self: center;
+    font-family: "Roboto", -apple-system;
+    font-weight: 300; */
+  display: none;
+}
+
+/** Footer **/
+
+.nav-footer {
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.nav-footer .nav-home {
+  position: absolute;
+  bottom: 15%;
+  height: 25px;
+  width: 50px;
+}
+
+.nav-footer .nav-home img {
+  height: 25px;
+}
+
+#footer {
+  font-size: 0.75rem;
+  padding: 1.5em;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--color-footer-background);
+  color: var(--color-main-background);
+}
+
+#footer a,
+#footer aside {
+  color: var(--color-main-background);
+}
+
+#footer ul {
+  list-style: none; /* Remove default bullets */
+  padding: 0;
+}
+
+#footer .row > div {
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.footer-logo {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.footer-logo aside {
+  margin-top: 0.5em;
+}
+
+.primary,
+.secondary {
+  column-count: 2;
+  line-height: 1.5em;
+  margin: 0;
+}
+
+.primary a,
+.secondary a {
+  font-family: "Laca" !important;
+}
+
+.primary a {
+  text-transform: uppercase;
+}
+
+.social a {
+  margin-right: 0.5rem;
+}
+
+#footer form .button {
+  padding: 0.25em 0.5em 0.2em 0.5em;
+}
+
+.show-medium,
+.show-small {
+  display: none;
+  visibility: hidden;
+}
+
+.hide-medium,
+.hide-small {
+  visibility: visible;
+}
+
+@media (max-width: 769px) {
+  .hide-medium {
+    display: none;
+    visibility: hidden;
+  }
+  .show-medium {
+    display: inherit;
+    visibility: visible;
+  }
+}
+
+@media (max-width: 691px) {
+  .hide-small {
+    display: none;
+    visibility: hidden;
+  }
+  .show-small {
+    display: inherit;
+    visibility: visible;
+  }
+}
+
+/** Other **/
+
+.docs-prevnext .button {
+  margin: 0.5rem 0;
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+  .navigationSlider .slidingNav ul li a {
+    color: white;
+  }
+}
+
+@media only screen and (min-width: 736px) {
+  .gridBlock > :first-child,
+  .gridBlock > :last-child {
+    margin: 0 12px;
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+}
+
+@media only screen and (min-width: 1024px) {
+  .navigationSlider .slidingNav ul li a {
+    color: var(--color-secondary);
+  }
+
+  .separateOnPageNav .headerWrapper.wrapper,
+  .headerWrapper.wrapper {
+    max-width: 1400px;
+  }
+
+  .separateOnPageNav .headerWrapper.wrapper header,
+  .headerWrapper.wrapper header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .docsNavContainer {
+    padding-right: 0.75rem;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+}
+
+@media only screen and (min-width: 1500px) {
+}

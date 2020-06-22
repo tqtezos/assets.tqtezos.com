@@ -1,0 +1,35 @@
+{
+  "name": "assets-tqtezos-com",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "cd website && npm start",
+    "build": "cd website && npm install && npm run build",
+    "postbuild": "rm -rf build/* && mkdir -p build && cp -r website/build/assets.tqtezos.com/* build/",
+    "test:links": "start-server-and-test 3000 'blc http://localhost:3000 -r --exclude github.com/tqtezos/assets.tqtezos.com --exclude linkedin.com'",
+    "format": "prettier --write \"website/**/*.js\" "
+  },
+  "devDependencies": {
+    "node-link-checker": "tqtezos/broken-link-checker#v0.7.x",
+    "start-server-and-test": "^1.10.11",
+    "prettier": "^2.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tqtezos/assets.tqtezos.com.git"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": false,
+    "jsxBracketSameLine": true
+  },
+  "author": "TQ Tezos <sarah@tqgroup.io>, <michael@tqgroup.io>, <igor@tqgroup.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tqtezos/assets.tqtezos.com/issues"
+  },
+  "homepage": "https://github.com/tqtezos/assets.tqtezos.com#readme"
+}
