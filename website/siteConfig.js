@@ -38,7 +38,7 @@ const siteConfig = {
     { doc: "intro", label: "Docs" },
     { href: "https://tqtezos.com", label: "TQ Tezos" },
     { href: "https://tezos.com", label: "Tezos.com" },
-    { page: "help", label: "Help" },
+    { href: "https://github.com/tqtezos/assets.tqtezos.com", label: "GitHub" },
   ],
 
   // If you have users set above, you add it here:
