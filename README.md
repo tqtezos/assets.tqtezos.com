@@ -1,15 +1,16 @@
 # assets-tqtezos-com
 
 ## Build
+
 `npm run build`
 
 ## Development
+
 See README.md in `website`
 
-Presteps: 
+To start development server:
+
 ```
 cd website && npm install
+npm start
 ```
-
-To start development server: `npm start`
-It will be exposed on port `3000` by default.
