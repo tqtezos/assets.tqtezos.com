@@ -6,7 +6,7 @@
     "start": "cd website && npm start",
     "build": "cd website && npm install && npm run build",
     "postbuild": "rm -rf build/* && mkdir -p build && cp -r website/build/assets.tqtezos.com/* build/",
-    "test:links": "start-server-and-test 3000 'blc http://localhost:3000 -r --exclude github.com/tqtezos/assets.tqtezos.com --exclude linkedin.com'",
+    "test:links": "start-server-and-test 3000 'blc http://localhost:3000 -r --exclude github.com/tqtezos/assets.tqtezos.com --exclude linkedin.com --exclude twitter.com'",
     "format": "prettier --write \"website/**/*.js\" "
   },
   "devDependencies": {
