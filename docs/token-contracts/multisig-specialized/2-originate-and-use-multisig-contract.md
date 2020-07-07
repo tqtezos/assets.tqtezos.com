@@ -99,7 +99,13 @@ a contract `MultisigNat` that has two admins, Bob and Alice, and only allows a
 `nat` param type.
 
 ```shell
-$ tezos-client --wait none originate contract MultisigNat transferring 0 from $BOB_ADDRESS running "$(stack exec -- lorentz-contract-multisig GenericMultisig print-specialized --parameterType 'nat' --oneline)"    --init "$(stack exec -- lorentz-contract-multisig GenericMultisig init-specialized --threshold 1 --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]")" --burn-cap 1.13
+$ tezos-client --wait none originate contract MultisigNat transferring 0 from \
+  $BOB_ADDRESS running "$(stack exec -- lorentz-contract-multisig GenericMultisig \
+  print-specialized --parameterType 'nat' --oneline)" \
+  --init "$(stack exec -- lorentz-contract-multisig GenericMultisig \
+  init-specialized --threshold 1 \
+  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]")" \
+  --burn-cap 1.13
 
 Waiting for the node to be bootstrapped before injection...
 Current head: BLmHvTEQEu8W (timestamp: 2020-07-07T18:18:56-00:00, validation: 2020-07-07T18:19:16-00:00)
