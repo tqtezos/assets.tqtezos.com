@@ -622,6 +622,44 @@ $ tezos-client get contract storage for $NAT_STORAGE_ADDRESS
 2
 ```
 
+If we try to set another allowance (`4`) for Bob to withdraw from Alice, we are
+met with a failure:
+```
+$ fa12 approve --value 4 --spender $BOB_ADDRESS
+...
+At line 294 characters 85 to 93,
+script reached FAILWITH instruction
+with (Pair "UnsafeAllowanceChange" 2)
+```
+
+The FA1.2 contract prohibits direct changes of allowance from a non-`0` value to
+another non-`0` value, in order to prevent the known [Approve attack vector](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM).
+
+So, in order to make such an allowance change, we need to first set it to `0`:
+```
+$ fa12 approve --value 0 --spender $BOB_ADDRESS
+```
+and then to the new value, `4`:
+```
+$ fa12 approve --value 4 --spender $BOB_ADDRESS
+```
+that now won't result in a failure.
+
+Note however that, in general, this is not entirely safe, because Bob could have
+spent some of his allowance from Alice, in the time between the transaction where
+we first set it to `2` and the one where it was set to `0`.
+
+In order to properly calculate the new non-`0` value, we'd need to scan all the
+transactions happened between those two, but here we'll assume for simplicity
+that there have been none.
+
+We can now check the allowance again and see that it has changed:
+
+```
+$ fa12 getAllowance --owner $ALICE_ADDRESS --spender $BOB_ADDRESS --callback-contract $NAT_STORAGE_ADDRESS
+$ tezos-client get contract storage for $NAT_STORAGE_ADDRESS
+4
+```
 
 ### Mint
 
@@ -789,7 +827,7 @@ On Arch Linux, install these packages with `pacman`:
 ```shell
 sudo pacman libsodium libsec256k1 gmp
 ```
-You may also need to install python-wheel    
+You may also need to install python-wheel
 
 Otherwise, if on Mac OS, install them with `brew`:
 
