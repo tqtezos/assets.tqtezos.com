@@ -414,90 +414,89 @@ $ stack exec -- lorentz-contract-multisig GenericMultisig run-multisig \
   --target-parameterType 'nat' --target-parameter '42' \
   --target-contract "\"$MULTISIG_ADMIN42_ADDRESS\"" \
   --multisig-contract "$MULTISIG_NAT_ADDRESS" --counter 1 --signatures "Nothing" \
-  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]"
+  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]" --chainId $CHAIN_ID
 
-  "0x0507070a0000001601b59c4c42c58363f113cec78c54535f59513e490d000707000105050707002a0a0000001601359bd24138e2baeb92e315f38dbab13b2ecc998100"
+"0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000105050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200"
 ```
 
-Now Alice will sign these new bytes, and we'll save them as `ALICE_SIGNATURE`
+Now Alice will sign these new bytes, and we'll save the signature as `ALICE_SIGNATURE`
 
 ```shell
 $ tezos-client sign bytes \
-  "0x0507070a0000001601a74b12a982f45edfaa7f13b03a65ab6fab90bf64000707000105050707002a0a00000016019fb7588db46e193843a068758790caf90b0f6ce000" \
+  "0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000105050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200" \
   for alice
 
-Signature: edsigu7F7stg1Ct2z8x78bdvm1Z3RTD751HNJPydf1kEW6jEAi275py8GGp9fiMfz6d94bNEzH8qTx3bV7sMY976SRme4LhGWCn
+Signature: edsigu4LH4EMH3YWvXM4nEAFGH3YYWWZGz1bn6BgFkaBuhBU9H9jXSjHzmfqWvqXYPvcTsjs96cQKLy1g36Hdy5rDbHDErHK7UD
 
-$ ALICE_SIGNATURE="edsigu7F7stg1Ct2z8x78bdvm1Z3RTD751HNJPydf1kEW6jEAi275py8GGp9fiMfz6d94bNEzH8qTx3bV7sMY976SRme4LhGWCn"
+$ ALICE_SIGNATURE="edsigu4LH4EMH3YWvXM4nEAFGH3YYWWZGz1bn6BgFkaBuhBU9H9jXSjHzmfqWvqXYPvcTsjs96cQKLy1g36Hdy5rDbHDErHK7UD"
 ```
 
 And Bob will do the same. We'll save his signature as `BOB_SIGNATURE`
 
 ```shell
 $ tezos-client sign bytes \
-  "0x0507070a0000001601a74b12a982f45edfaa7f13b03a65ab6fab90bf64000707000105050707002a0a00000016019fb7588db46e193843a068758790caf90b0f6ce000" \
+  "0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000105050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200" \
   for bob
 
-Signature: edsigtrCchePiqHWrGL77yknxaoo41RcbmNouRKhDWqaeezB4KxyLoUZZGvhEJnUfh6txFBhgYVDNyDdZaJEraNGKZaU1gsdNUX
+Signature: edsigty6y3LSdJ4JBmCHLhegboGJyNdFKeHUpqrceuyY1UTQCo1Yq8kXJYMxoy1Wesd2Y5DXAMtYHwyuGRc2SWRMMwGXjgg8PCi
 
-$ BOB_SIGNATURE="edsigtrCchePiqHWrGL77yknxaoo41RcbmNouRKhDWqaeezB4KxyLoUZZGvhEJnUfh6txFBhgYVDNyDdZaJEraNGKZaU1gsdNUX"
+$ BOB_SIGNATURE="edsigty6y3LSdJ4JBmCHLhegboGJyNdFKeHUpqrceuyY1UTQCo1Yq8kXJYMxoy1Wesd2Y5DXAMtYHwyuGRc2SWRMMwGXjgg8PCi"
 ```
 
 ```shell
 $ tezos-client --wait none transfer 0 from $BOB_ADDRESS to $MULTISIG_NAT_ADDRESS \
-  --entrypoint 'mainParameter' --arg "$(stack exec -- lorentz-contract-multisig \
+  --arg "$(stack exec -- lorentz-contract-multisig \
   GenericMultisig run-multisig --target-parameterType 'nat' \
   --target-parameter '42' --target-contract "\"$MULTISIG_ADMIN42_ADDRESS\"" \
   --multisig-contract "$MULTISIG_NAT_ADDRESS" --counter 1 \
   --signatures "Just[Just\"$BOB_SIGNATURE\",Just\"$ALICE_SIGNATURE\"]" \
-  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]")" \
+  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]" --chainId $CHAIN_ID)" \
   --burn-cap 0.000001
 
 Waiting for the node to be bootstrapped before injection...
-Current head: BLtJ6Xh46dTw (timestamp: 2020-04-10T19:29:09-00:00, validation: 2020-04-10T19:30:16-00:00)
+Current head: BMYs2gUj2Mia (timestamp: 2020-07-07T19:31:26-00:00, validation: 2020-07-07T19:31:53-00:00)
 Node is bootstrapped, ready for injecting operations.
-Estimated gas: 46984 units (will add 100 for safety)
+Estimated gas: 44959 units (will add 100 for safety)
 Estimated storage: no bytes added
 Operation successfully injected in the node.
-Operation hash is 'opa7AcwvJJyZdMptL2tmanm1mFgZHEcPHfcfXiLFkK1jCxWDY6f'
+Operation hash is 'ooB2EW7dw5J7hD5Vc1ASmXWfibdwrivFHUHLY5MtRKfYgMqFWPo'
 NOT waiting for the operation to be included.
 Use command
-  tezos-client wait for opa7AcwvJJyZdMptL2tmanm1mFgZHEcPHfcfXiLFkK1jCxWDY6f to be included --confirmations 30 --branch BLtJ6Xh46dTwEiPQBRE83Ng9T17ufjfQwHSHS413KhjuzdJwW8P
+  tezos-client wait for ooB2EW7dw5J7hD5Vc1ASmXWfibdwrivFHUHLY5MtRKfYgMqFWPo to be included --confirmations 30 --branch BMYs2gUj2Miamp4Wdi16BhSZNP5bFbextd2gZUSqMFizSD9pZwh
 and/or an external block explorer to make sure that it has been included.
 This sequence of operations was run:
   Manager signed operations:
     From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
-    Fee to the baker: ꜩ0.005249
-    Expected counter: 623947
-    Gas limit: 47084
+    Fee to the baker: ꜩ0.005032
+    Expected counter: 623984
+    Gas limit: 45059
     Storage limit: 0 bytes
     Balance updates:
-      tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.005249
-      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,163) ... +ꜩ0.005249
+      tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.005032
+      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,267) ... +ꜩ0.005032
     Transaction:
       Amount: ꜩ0
       From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
-      To: KT1PqLLxVURv2R4uRvtukngehoxeTXd7ySpC
-      Entrypoint: mainParameter
-      Parameter: (Pair (Pair 1 (Left (Pair 42 "KT1P9GeN3vvVHEPKC4YKZAHTTFhLLdNM3toj")))
-                       { Some "edsigtrCchePiqHWrGL77yknxaoo41RcbmNouRKhDWqaeezB4KxyLoUZZGvhEJnUfh6txFBhgYVDNyDdZaJEraNGKZaU1gsdNUX" ;
-                         Some "edsigu7F7stg1Ct2z8x78bdvm1Z3RTD751HNJPydf1kEW6jEAi275py8GGp9fiMfz6d94bNEzH8qTx3bV7sMY976SRme4LhGWCn" })
+      To: KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh
+      Parameter: (Pair (Pair 1 (Left (Pair 42 "KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt")))
+                       { Some "edsigty6y3LSdJ4JBmCHLhegboGJyNdFKeHUpqrceuyY1UTQCo1Yq8kXJYMxoy1Wesd2Y5DXAMtYHwyuGRc2SWRMMwGXjgg8PCi" ;
+                         Some "edsigu4LH4EMH3YWvXM4nEAFGH3YYWWZGz1bn6BgFkaBuhBU9H9jXSjHzmfqWvqXYPvcTsjs96cQKLy1g36Hdy5rDbHDErHK7UD" })
       This transaction was successfully applied
       Updated storage:
         (Pair 2
               (Pair 1
                     { 0x00622ace8f1d06165b951d0362624033e6f6eb5650c45290ff0ddbff6055d2caa1 ;
                       0x00cc80ab168b04973d9e1f9d4d2248b077a9250d3bce750b2735b4818a7b9bb7d3 }))
-      Storage size: 873 bytes
-      Consumed gas: 33203
+      Storage size: 768 bytes
+      Consumed gas: 31178
     Internal operations:
       Transaction:
         Amount: ꜩ0
-        From: KT1PqLLxVURv2R4uRvtukngehoxeTXd7ySpC
-        To: KT1P9GeN3vvVHEPKC4YKZAHTTFhLLdNM3toj
+        From: KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh
+        To: KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt
         Parameter: 42
         This transaction was successfully applied
-        Updated storage: 0x01a74b12a982f45edfaa7f13b03a65ab6fab90bf6400
+        Updated storage: 0x01e434087b4651ce2e3132592129765f42427bde9d00
         Storage size: 149 bytes
         Consumed gas: 13781
 ```
@@ -515,31 +514,30 @@ $ stack exec -- lorentz-contract-multisig GenericMultisig run-multisig \
   --target-parameterType 'nat' --target-parameter '42' \
   --target-contract "\"$MULTISIG_ADMIN42_ADDRESS\"" \
   --multisig-contract "$MULTISIG_NAT_ADDRESS" --counter 4 --signatures "Nothing" \
-  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key fred)\"]"
+  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key fred)\"]" --chainId $CHAIN_ID
 
-"0x0507070a0000001601b59c4c42c58363f113cec78c54535f59513e490d000707000405050707002a0a0000001601359bd24138e2baeb92e315f38dbab13b2ecc998100"
-
+"0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000405050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200"
 
 $ tezos-client sign bytes \
-  "0x0507070a0000001601b59c4c42c58363f113cec78c54535f59513e490d000707000405050707002a0a0000001601359bd24138e2baeb92e315f38dbab13b2ecc998100" \
+  "0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000405050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200" \
   for fred
 
-Signature: edsigthogogU5r8LPToExpzirPyH7j1zBz4AGNLxuscKtfcViUUyY9QFrxKvYE9GPquUJPnf32RcF4yutE3Em4ax9o8yNJoGZyg
+Signature: edsigu3vWQjfgAH63MbXDx2Tv6j1DQ4x73Zebhvfcqg3Vw9rzaG1j6LUFPPVr9dFVySS9BPwYf5323ECRETLBcgFWyqazDcJN6z
 
-$ FRED_SIGNATURE= "edsigthogogU5r8LPToExpzirPyH7j1zBz4AGNLxuscKtfcViUUyY9QFrxKvYE9GPquUJPnf32RcF4yutE3Em4ax9o8yNJoGZyg"
+$ FRED_SIGNATURE="edsigu3vWQjfgAH63MbXDx2Tv6j1DQ4x73Zebhvfcqg3Vw9rzaG1j6LUFPPVr9dFVySS9BPwYf5323ECRETLBcgFWyqazDcJN6z"
 
 $ tezos-client --wait none transfer 0 from $BOB_ADDRESS to $MULTISIG_NAT_ADDRESS \
-  --entrypoint 'mainParameter' --arg "$(stack exec -- lorentz-contract-multisig \
+  --arg "$(stack exec -- lorentz-contract-multisig \
   GenericMultisig run-multisig --target-parameterType 'nat' \
   --target-parameter '42' --target-contract "\"$MULTISIG_ADMIN42_ADDRESS\"" \
   --multisig-contract "$MULTISIG_NAT_ADDRESS" --counter 4 \
   --signatures "Just[Just\"$BOB_SIGNATURE\",Just\"$FRED_SIGNATURE\"]" \
-  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key fred)\"]")" \
+  --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key fred)\"]" --chainId $CHAIN_ID)" \
   --burn-cap 0.000001
 
-invalid signature(s) provided
 CallStack (from HasCallStack):
-  error, called at src/Lorentz/Contracts/GenericMultisig/CmdLnArgs.hs..
+  error, called at src/Lorentz/Contracts/GenericMultisig/CmdLnArgs.hs:397:25 in lorentz-contract-multisig-0.1.0.1-7nDq5hWdrcbHFov64Ydo4r:Lorentz.Contracts.GenericMultisig.CmdLnArgs
+
 empty expression
 Fatal error:
   transfer simulation failed
