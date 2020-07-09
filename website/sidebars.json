@@ -29,6 +29,14 @@
           "token-contracts/multisig-specialized/1-multisig-specialized-intro",
           "token-contracts/multisig-specialized/2-originate-and-use-multisig-contract"
         ]
+      },
+      {
+        "type": "subcategory",
+        "label":"Transferlist",
+        "ids": [
+          "token-contracts/transferlist/1-transferlist-intro",
+          "token-contracts/transferlist/2-originate-and-use-transferlist-contract"
+        ]
       }
     ],
     "Oracle": ["oracle"],
