@@ -21,7 +21,7 @@ command as follows:
 ```shell
 $ stack exec -- lorentz-contract-multisig GenericMultisig print-specialized --parameterType 'nat' --oneline
 
-parameter (pair (pair nat (or (pair nat (contract nat)) (pair nat (list key)))) (list (option signature)));storage (pair nat (pair nat (list key)));code { DUP;CAR;DIP { CDR };PUSH mutez 0;AMOUNT;COMPARE;EQ;IF {  }   { PUSH string "Some tokens were sent to this contract outside of a unit entry point.";FAILWITH };SWAP;DUP;DIP { SWAP };DIP { DUP;CAR;DIP { CDR };DUP;SELF;ADDRESS;CHAIN_ID;PAIR;PAIR;PACK;DIP { DUP;CAR;DIP { CDR };DIP { SWAP } };SWAP };DUP;CAR;DIP { CDR };DIP { SWAP };COMPARE;EQ;IF {  }   { PUSH string "Counters do not match.";FAILWITH };DIP { SWAP };DUP;CAR;DIP { CDR };DIP { PUSH nat 0;SWAP;ITER { DIP { SWAP };SWAP;IF_CONS { IF_NONE { SWAP;DROP }        { SWAP;DIP { SWAP;DIP { DIP { DIP { DUP };SWAP } };DIP 2 { DUP };DIG 2;DIP { CHECK_SIGNATURE };SWAP;IF { DROP }   { FAILWITH };PUSH nat 1;ADD } } }        { FAILWITH };SWAP } };COMPARE;LE;IF {  }   { PUSH string "Quorum not present";FAILWITH };IF_CONS { FAILWITH }        {  };DROP;DIP { DUP;CAR;DIP { CDR };PUSH nat 1;ADD;PAIR };IF_LEFT { SWAP;DIP { DUP;CAR;DIP { CDR };DIP { DIP { NIL operation };PUSH mutez 0 };TRANSFER_TOKENS;CONS };SWAP }        { DIP { CAR };SWAP;PAIR;NIL operation };PAIR };
+parameter (pair (pair (nat :counter) (or :action (pair nat (contract nat)) (pair (nat :threshold) (list :keys key)))) (list :sigs (option signature)));storage (pair nat (pair nat (list key)));code { CAST (pair (pair (pair nat (or (pair nat (contract nat)) (pair nat (list key)))) (list (option signature))) (pair nat (pair nat (list key))));DUP;CAR;DIP { CDR };DIP {  };PUSH mutez 0;AMOUNT;COMPARE;EQ;IF {  }   { PUSH string "Some tokens were sent to this contract outside of a unit entry point.";FAILWITH };SWAP;DUP;DIP { SWAP };DIP { DUP;CAR;DIP { CDR };DUP;SELF;ADDRESS;CHAIN_ID;PAIR;PAIR;PACK;DIP { DUP;CAR;DIP { CDR };DIP { SWAP } };SWAP };DUP;CAR;DIP { CDR };DIP { SWAP };COMPARE;EQ;IF {  }   { PUSH string "Counters do not match.";FAILWITH };DIP { SWAP };DUP;CAR;DIP { CDR };DIP { PUSH nat 0;SWAP;ITER { DIP { SWAP };SWAP;IF_CONS { IF_NONE { SWAP;DROP }        { SWAP;DIP { SWAP;DIP { DIP { DIP { DUP };SWAP } };DIP 2 { DUP };DIG 2;DIP { CHECK_SIGNATURE };SWAP;IF { DROP }   { FAILWITH };PUSH nat 1;ADD } } }        { FAILWITH };SWAP } };COMPARE;LE;IF {  }   { PUSH string "Quorum not present";FAILWITH };IF_CONS { FAILWITH }        {  };DROP;DIP { DUP;CAR;DIP { CDR };PUSH nat 1;ADD;PAIR };IF_LEFT { DIP {  };SWAP;DIP { DUP;CAR;DIP { CDR };DIP { DIP { NIL operation };PUSH mutez 0 };TRANSFER_TOKENS;CONS };SWAP }        { DIP { CAR };SWAP;PAIR;NIL operation };PAIR };
 ```
 
 The `lorentz-contract-multisig` script has generated a valid Michelson contract
@@ -34,7 +34,7 @@ If we generate with a map from string to int, it would look like the following:
 $ stack exec -- lorentz-contract-multisig GenericMultisig print-specialized \
   --parameterType 'map string int' --oneline
 
-parameter (pair (pair nat (or (pair (map string int) (contract (map string int))) (pair nat (list key)))) (list (option signature)));storage (pair nat (pair nat (list key)));code { DUP;CAR;DIP { CDR };PUSH mutez 0;AMOUNT;COMPARE;EQ;IF {  }   { PUSH string "Some tokens were sent to this contract outside of a unit entry point.";FAILWITH };SWAP;DUP;DIP { SWAP };DIP { DUP;CAR;DIP { CDR };DUP;SELF;ADDRESS;CHAIN_ID;PAIR;PAIR;PACK;DIP { DUP;CAR;DIP { CDR };DIP { SWAP } };SWAP };DUP;CAR;DIP { CDR };DIP { SWAP };COMPARE;EQ;IF {  }   { PUSH string "Counters do not match.";FAILWITH };DIP { SWAP };DUP;CAR;DIP { CDR };DIP { PUSH nat 0;SWAP;ITER { DIP { SWAP };SWAP;IF_CONS { IF_NONE { SWAP;DROP }        { SWAP;DIP { SWAP;DIP { DIP { DIP { DUP };SWAP } };DIP 2 { DUP };DIG 2;DIP { CHECK_SIGNATURE };SWAP;IF { DROP }   { FAILWITH };PUSH nat 1;ADD } } }        { FAILWITH };SWAP } };COMPARE;LE;IF {  }   { PUSH string "Quorum not present";FAILWITH };IF_CONS { FAILWITH }        {  };DROP;DIP { DUP;CAR;DIP { CDR };PUSH nat 1;ADD;PAIR };IF_LEFT { SWAP;DIP { DUP;CAR;DIP { CDR };DIP { DIP { NIL operation };PUSH mutez 0 };TRANSFER_TOKENS;CONS };SWAP }        { DIP { CAR };SWAP;PAIR;NIL operation };PAIR };
+parameter (pair (pair (nat :counter) (or :action (pair (map string int) (contract (map string int))) (pair (nat :threshold) (list :keys key)))) (list :sigs (option signature)));storage (pair nat (pair nat (list key)));code { CAST (pair (pair (pair nat (or (pair (map string int) (contract (map string int))) (pair nat (list key)))) (list (option signature))) (pair nat (pair nat (list key))));DUP;CAR;DIP { CDR };DIP {  };PUSH mutez 0;AMOUNT;COMPARE;EQ;IF {  }   { PUSH string "Some tokens were sent to this contract outside of a unit entry point.";FAILWITH };SWAP;DUP;DIP { SWAP };DIP { DUP;CAR;DIP { CDR };DUP;SELF;ADDRESS;CHAIN_ID;PAIR;PAIR;PACK;DIP { DUP;CAR;DIP { CDR };DIP { SWAP } };SWAP };DUP;CAR;DIP { CDR };DIP { SWAP };COMPARE;EQ;IF {  }   { PUSH string "Counters do not match.";FAILWITH };DIP { SWAP };DUP;CAR;DIP { CDR };DIP { PUSH nat 0;SWAP;ITER { DIP { SWAP };SWAP;IF_CONS { IF_NONE { SWAP;DROP }        { SWAP;DIP { SWAP;DIP { DIP { DIP { DUP };SWAP } };DIP 2 { DUP };DIG 2;DIP { CHECK_SIGNATURE };SWAP;IF { DROP }   { FAILWITH };PUSH nat 1;ADD } } }        { FAILWITH };SWAP } };COMPARE;LE;IF {  }   { PUSH string "Quorum not present";FAILWITH };IF_CONS { FAILWITH }        {  };DROP;DIP { DUP;CAR;DIP { CDR };PUSH nat 1;ADD;PAIR };IF_LEFT { DIP {  };SWAP;DIP { DUP;CAR;DIP { CDR };DIP { DIP { NIL operation };PUSH mutez 0 };TRANSFER_TOKENS;CONS };SWAP }        { DIP { CAR };SWAP;PAIR;NIL operation };PAIR };
 ```
 
 You can compare the two outputs above and see where the new type has been inserted.
@@ -105,29 +105,29 @@ $ tezos-client --wait none originate contract MultisigNat transferring 0 from \
   --init "$(stack exec -- lorentz-contract-multisig GenericMultisig \
   init-specialized --threshold 1 \
   --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]")" \
-  --burn-cap 1.13
+  --burn-cap 1.14
 
 Waiting for the node to be bootstrapped before injection...
-Current head: BLmHvTEQEu8W (timestamp: 2020-07-07T18:18:56-00:00, validation: 2020-07-07T18:19:16-00:00)
+Current head: BLzWwsRQcRsp (timestamp: 2020-07-09T16:31:42-00:00, validation: 2020-07-09T16:32:10-00:00)
 Node is bootstrapped, ready for injecting operations.
-Estimated gas: 29262 units (will add 100 for safety)
-Estimated storage: 1025 bytes added (will add 20 for safety)
+Estimated gas: 31880 units (will add 100 for safety)
+Estimated storage: 1140 bytes added (will add 20 for safety)
 Operation successfully injected in the node.
-Operation hash is 'onsETqyW5qYyK2X1mpRoamTXQqw7GaB1L2fft6Kn3x6WYbrtmqT'
+Operation hash is 'oo9o8JHvRceyiUZ8DA1U3fTi8C6Nvc5mUBHxYGKTAXQa6BAddwT'
 NOT waiting for the operation to be included.
 Use command
-  tezos-client wait for onsETqyW5qYyK2X1mpRoamTXQqw7GaB1L2fft6Kn3x6WYbrtmqT to be included --confirmations 30 --branch BLmHvTEQEu8WiMabSFnB2SmDFLkRy5o65NcW59n8nTs1Qr6oZid
+  tezos-client wait for oo9o8JHvRceyiUZ8DA1U3fTi8C6Nvc5mUBHxYGKTAXQa6BAddwT to be included --confirmations 30 --branch BLzWwsRQcRspFLWG5cWZF9No5g3VSZ5jgxnuDF3omYWg7ZVbHHR
 and/or an external block explorer to make sure that it has been included.
 This sequence of operations was run:
   Manager signed operations:
     From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
-    Fee to the baker: ꜩ0.003977
-    Expected counter: 623981
-    Gas limit: 29362
-    Storage limit: 1045 bytes
+    Fee to the baker: ꜩ0.004353
+    Expected counter: 623986
+    Gas limit: 31980
+    Storage limit: 1160 bytes
     Balance updates:
-      tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.003977
-      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,267) ... +ꜩ0.003977
+      tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.004353
+      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,269) ... +ꜩ0.004353
     Origination:
       From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
       Credit: ꜩ0
@@ -141,22 +141,22 @@ This sequence of operations was run:
         No delegate for this contract
         This origination was successfully applied
         Originated contracts:
-          KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh
-        Storage size: 768 bytes
-        Paid storage size diff: 768 bytes
-        Consumed gas: 29262
+          KT1NUp9a8gC5xQJDi4E9hr2WRZpUxx8BQrT3
+        Storage size: 883 bytes
+        Paid storage size diff: 883 bytes
+        Consumed gas: 31880
         Balance updates:
-          tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ... -ꜩ0.768
+          tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ... -ꜩ0.883
           tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ... -ꜩ0.257
 
-New contract KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh originated.
+New contract KT1NUp9a8gC5xQJDi4E9hr2WRZpUxx8BQrT3 originated.
 Contract memorized as MultisigNat.
 ```
 
 We can store the contract address in a bash variable:
 
 ```shell
-$ MULTISIG_NAT_ADDRESS="KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh"
+$ MULTISIG_NAT_ADDRESS="KT1NUp9a8gC5xQJDi4E9hr2WRZpUxx8BQrT3"
 ```
 
 ## Administer a Second Contract with Specialized Multisig
@@ -184,26 +184,26 @@ $ tezos-client --wait none originate contract MultisigAdmin42 transferring 0 \
   --init "\"$MULTISIG_NAT_ADDRESS\"" --burn-cap 0.406
 
 Waiting for the node to be bootstrapped before injection...
-Current head: BKmCaCBJ39nS (timestamp: 2020-07-07T18:20:56-00:00, validation: 2020-07-07T18:21:38-00:00)
+Current head: BLGqGwqVRJEd (timestamp: 2020-07-09T16:35:12-00:00, validation: 2020-07-09T16:35:38-00:00)
 Node is bootstrapped, ready for injecting operations.
 Estimated gas: 13516 units (will add 100 for safety)
 Estimated storage: 406 bytes added (will add 20 for safety)
 Operation successfully injected in the node.
-Operation hash is 'op2XtUZtV4qpJYU2VCRuiietDnnAcMrE2JuiCKZGBzDBPvTNzgG'
+Operation hash is 'op8Swwt9bYvQ58gbGPoZijJfx94tB2pbByVSco44PXuWme8oMwT'
 NOT waiting for the operation to be included.
 Use command
-  tezos-client wait for op2XtUZtV4qpJYU2VCRuiietDnnAcMrE2JuiCKZGBzDBPvTNzgG to be included --confirmations 30 --branch BMJKTXtDLfLr71vmgn5ULT3L4uD5pxMdDAYRBrhVpTcxvuiD99K
+  tezos-client wait for op8Swwt9bYvQ58gbGPoZijJfx94tB2pbByVSco44PXuWme8oMwT to be included --confirmations 30 --branch BLGqGwqVRJEdkEF9oborwD3BQkLKVuuWRxni6FwP155s5aqxKqQ
 and/or an external block explorer to make sure that it has been included.
 This sequence of operations was run:
   Manager signed operations:
     From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
     Fee to the baker: ꜩ0.001754
-    Expected counter: 623982
+    Expected counter: 623987
     Gas limit: 13616
     Storage limit: 426 bytes
     Balance updates:
       tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.001754
-      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,267) ... +ꜩ0.001754
+      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,269) ... +ꜩ0.001754
     Origination:
       From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
       Credit: ꜩ0
@@ -221,11 +221,11 @@ This sequence of operations was run:
                  CDR ;
                  NIL operation ;
                  PAIR } }
-        Initial storage: "KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh"
+        Initial storage: "KT1NUp9a8gC5xQJDi4E9hr2WRZpUxx8BQrT3"
         No delegate for this contract
         This origination was successfully applied
         Originated contracts:
-          KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt
+          KT1U2qHuZrKm7EwwRZ9j6XpZyd9y6VDhpQVo
         Storage size: 149 bytes
         Paid storage size diff: 149 bytes
         Consumed gas: 13516
@@ -233,13 +233,13 @@ This sequence of operations was run:
           tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ... -ꜩ0.149
           tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ... -ꜩ0.257
 
-New contract KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt originated.
+New contract KT1U2qHuZrKm7EwwRZ9j6XpZyd9y6VDhpQVo originated.
 Contract memorized as MultisigAdmin42.
 ```
 
 And save the contract address in a variable:
 ```shell
-MULTISIG_ADMIN42_ADDRESS="KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt"
+$ MULTISIG_ADMIN42_ADDRESS="KT1U2qHuZrKm7EwwRZ9j6XpZyd9y6VDhpQVo"
 ```
 
 ### Signing A Transaction with One Signer
@@ -268,7 +268,7 @@ $ tezos-client rpc get /chains/main/chain_id
 
 Set a bash variable for the chain ID:
 ```shell
-CHAIN_ID="NetXjD3HPJJjmcd"  
+$ CHAIN_ID="NetXjD3HPJJjmcd"  
 ```
 
 First, we'll generate the bytes
@@ -281,7 +281,7 @@ $ stack exec -- lorentz-contract-multisig GenericMultisig run-multisig \
   --multisig-contract "$MULTISIG_NAT_ADDRESS" --counter 0 --signatures "Nothing" \
   --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]" --chainId $CHAIN_ID
 
-"0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000005050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200"
+"0x05070707070a000000049caecab90a000000160198716bd8c37c014c606841e5f7398ed70d99a6a9000707000005050707002a0a0000001601d55850d12efa417a6d53f8290f027c2650390aef00"
 ```
 
 Let's break that down.
@@ -314,15 +314,15 @@ Now we'll take the bytes we generated with the last command, and sign them as Al
 
 ```shell
 $ tezos-client sign bytes \
-  "0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000005050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200" \
+  "0x05070707070a000000049caecab90a000000160198716bd8c37c014c606841e5f7398ed70d99a6a9000707000005050707002a0a0000001601d55850d12efa417a6d53f8290f027c2650390aef00" \
   for alice
 
-Signature: edsigu12Rx5nKPTUwSqq6kErFSVqxi931ohPxCh6Xoj7VzQBVSj594sTh9sw7P2LVa6bzpFVQrPPruDoi6CJy3ZncwexLpe4YSa
+Signature: edsigtczKcLhrkFsRKhp9cUPdbv19z9g9ZUmKkHXLA42UJMJDJ2nQypNK2iwzbrGM2HHDQR5cGYSpyVPctSkM8jAC1zHGEKyVGc
 ```
 
 And save the signature
 ```shell
-$ OPERATION_SIGNATURE="edsigu12Rx5nKPTUwSqq6kErFSVqxi931ohPxCh6Xoj7VzQBVSj594sTh9sw7P2LVa6bzpFVQrPPruDoi6CJy3ZncwexLpe4YSa"
+$ OPERATION_SIGNATURE="edsigtczKcLhrkFsRKhp9cUPdbv19z9g9ZUmKkHXLA42UJMJDJ2nQypNK2iwzbrGM2HHDQR5cGYSpyVPctSkM8jAC1zHGEKyVGc"
 ```
 
 Now we're going to use the `lorentz-contract-multisig` tool again, but we're
@@ -356,51 +356,51 @@ $ tezos-client --wait none transfer 0 from $BOB_ADDRESS to $MULTISIG_NAT_ADDRESS
   --chainId $CHAIN_ID)" --burn-cap 0.000001
 
 Waiting for the node to be bootstrapped before injection...
-Current head: BL2unF5ea1w2 (timestamp: 2020-07-07T18:30:26-00:00, validation: 2020-07-07T18:31:05-00:00)
+Current head: BMUPZBFduaBY (timestamp: 2020-07-09T16:37:12-00:00, validation: 2020-07-09T16:37:28-00:00)
 Node is bootstrapped, ready for injecting operations.
-Estimated gas: 44317 units (will add 100 for safety)
+Estimated gas: 46362 units (will add 100 for safety)
 Estimated storage: no bytes added
 Operation successfully injected in the node.
-Operation hash is 'opBiiFod2ZgehMzx4hNxKZCQtPKdA8GtqeucYfNd1RxhV2vs6bM'
+Operation hash is 'ooqtqmu4MyKzS5Hw7TzBjvcS9B7KMVwQ8x846tPrLsqoXwq3BJM'
 NOT waiting for the operation to be included.
 Use command
-  tezos-client wait for opBiiFod2ZgehMzx4hNxKZCQtPKdA8GtqeucYfNd1RxhV2vs6bM to be included --confirmations 30 --branch BL2unF5ea1w22GKhMKhkjU6ric5VeSHMtuPMGQ66Ud3g9qQbAd7
+  tezos-client wait for ooqtqmu4MyKzS5Hw7TzBjvcS9B7KMVwQ8x846tPrLsqoXwq3BJM to be included --confirmations 30 --branch BMUPZBFduaBYE2SfjHkUK8NqfX3UVrKwCR3Q6ffMMmC3puVM5Fy
 and/or an external block explorer to make sure that it has been included.
 This sequence of operations was run:
   Manager signed operations:
     From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
-    Fee to the baker: ꜩ0.004864
-    Expected counter: 623983
-    Gas limit: 44417
+    Fee to the baker: ꜩ0.005069
+    Expected counter: 623988
+    Gas limit: 46462
     Storage limit: 0 bytes
     Balance updates:
-      tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.004864
-      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,267) ... +ꜩ0.004864
+      tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.005069
+      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,269) ... +ꜩ0.005069
     Transaction:
       Amount: ꜩ0
       From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
-      To: KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh
-      Parameter: (Pair (Pair 0 (Left (Pair 42 "KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt")))
+      To: KT1NUp9a8gC5xQJDi4E9hr2WRZpUxx8BQrT3
+      Parameter: (Pair (Pair 0 (Left (Pair 42 "KT1U2qHuZrKm7EwwRZ9j6XpZyd9y6VDhpQVo")))
                        { None ;
-                         Some "edsigu12Rx5nKPTUwSqq6kErFSVqxi931ohPxCh6Xoj7VzQBVSj594sTh9sw7P2LVa6bzpFVQrPPruDoi6CJy3ZncwexLpe4YSa" })
+                         Some "edsigtczKcLhrkFsRKhp9cUPdbv19z9g9ZUmKkHXLA42UJMJDJ2nQypNK2iwzbrGM2HHDQR5cGYSpyVPctSkM8jAC1zHGEKyVGc" })
       This transaction was successfully applied
       Updated storage:
         (Pair 1
               (Pair 1
                     { 0x00622ace8f1d06165b951d0362624033e6f6eb5650c45290ff0ddbff6055d2caa1 ;
                       0x00cc80ab168b04973d9e1f9d4d2248b077a9250d3bce750b2735b4818a7b9bb7d3 }))
-      Storage size: 768 bytes
-      Consumed gas: 30536
+      Storage size: 883 bytes
+      Consumed gas: 32580
     Internal operations:
       Transaction:
         Amount: ꜩ0
-        From: KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh
-        To: KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt
+        From: KT1NUp9a8gC5xQJDi4E9hr2WRZpUxx8BQrT3
+        To: KT1U2qHuZrKm7EwwRZ9j6XpZyd9y6VDhpQVo
         Parameter: 42
         This transaction was successfully applied
-        Updated storage: 0x01e434087b4651ce2e3132592129765f42427bde9d00
+        Updated storage: 0x0198716bd8c37c014c606841e5f7398ed70d99a6a900
         Storage size: 149 bytes
-        Consumed gas: 13781
+        Consumed gas: 13782
 ```
 
 ### Signing a Transaction with Two Signers
@@ -422,31 +422,31 @@ $ stack exec -- lorentz-contract-multisig GenericMultisig run-multisig \
   --multisig-contract "$MULTISIG_NAT_ADDRESS" --counter 1 --signatures "Nothing" \
   --signerKeys "[\"$(get_public_key bob)\",\"$(get_public_key alice)\"]" --chainId $CHAIN_ID
 
-"0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000105050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200"
+"0x05070707070a000000049caecab90a000000160198716bd8c37c014c606841e5f7398ed70d99a6a9000707000105050707002a0a0000001601d55850d12efa417a6d53f8290f027c2650390aef00"
 ```
 
 Now Alice will sign these new bytes, and we'll save the signature as `ALICE_SIGNATURE`
 
 ```shell
 $ tezos-client sign bytes \
-  "0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000105050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200" \
+  "0x05070707070a000000049caecab90a000000160198716bd8c37c014c606841e5f7398ed70d99a6a9000707000105050707002a0a0000001601d55850d12efa417a6d53f8290f027c2650390aef00" \
   for alice
 
-Signature: edsigu4LH4EMH3YWvXM4nEAFGH3YYWWZGz1bn6BgFkaBuhBU9H9jXSjHzmfqWvqXYPvcTsjs96cQKLy1g36Hdy5rDbHDErHK7UD
+Signature: edsigu2ay8M6gXj2LqBmc3fJ7tMDuNP8ExiCBMFjBsi3sPSFWR8SWERNaymMqAivm9aWVAWLwiqu4qYMtBKp7B7oujM8DLxC5BM
 
-$ ALICE_SIGNATURE="edsigu4LH4EMH3YWvXM4nEAFGH3YYWWZGz1bn6BgFkaBuhBU9H9jXSjHzmfqWvqXYPvcTsjs96cQKLy1g36Hdy5rDbHDErHK7UD"
+$ ALICE_SIGNATURE="edsigu2ay8M6gXj2LqBmc3fJ7tMDuNP8ExiCBMFjBsi3sPSFWR8SWERNaymMqAivm9aWVAWLwiqu4qYMtBKp7B7oujM8DLxC5BM"
 ```
 
 And Bob will do the same. We'll save his signature as `BOB_SIGNATURE`
 
 ```shell
 $ tezos-client sign bytes \
-  "0x05070707070a000000049caecab90a0000001601e434087b4651ce2e3132592129765f42427bde9d000707000105050707002a0a000000160122d24b94f44833a82467937ddf66a5a8960a28b200" \
+  "0x05070707070a000000049caecab90a000000160198716bd8c37c014c606841e5f7398ed70d99a6a9000707000105050707002a0a0000001601d55850d12efa417a6d53f8290f027c2650390aef00" \
   for bob
 
-Signature: edsigty6y3LSdJ4JBmCHLhegboGJyNdFKeHUpqrceuyY1UTQCo1Yq8kXJYMxoy1Wesd2Y5DXAMtYHwyuGRc2SWRMMwGXjgg8PCi
+Signature: edsigtvraShNmfMppX65BDsJuaWjasWPie9qfNyTBHwGD2kyZMe7atTvm5CULseNSD4uKY2bzzGvQDq7Jks8yFp4DRdb9t5FKX4
 
-$ BOB_SIGNATURE="edsigty6y3LSdJ4JBmCHLhegboGJyNdFKeHUpqrceuyY1UTQCo1Yq8kXJYMxoy1Wesd2Y5DXAMtYHwyuGRc2SWRMMwGXjgg8PCi"
+$ BOB_SIGNATURE="edsigtvraShNmfMppX65BDsJuaWjasWPie9qfNyTBHwGD2kyZMe7atTvm5CULseNSD4uKY2bzzGvQDq7Jks8yFp4DRdb9t5FKX4"
 ```
 
 ```shell
@@ -460,51 +460,51 @@ $ tezos-client --wait none transfer 0 from $BOB_ADDRESS to $MULTISIG_NAT_ADDRESS
   --burn-cap 0.000001
 
 Waiting for the node to be bootstrapped before injection...
-Current head: BMYs2gUj2Mia (timestamp: 2020-07-07T19:31:26-00:00, validation: 2020-07-07T19:31:53-00:00)
+Current head: BLkZFogRt69q (timestamp: 2020-07-09T16:39:12-00:00, validation: 2020-07-09T16:39:32-00:00)
 Node is bootstrapped, ready for injecting operations.
-Estimated gas: 44959 units (will add 100 for safety)
+Estimated gas: 47004 units (will add 100 for safety)
 Estimated storage: no bytes added
 Operation successfully injected in the node.
-Operation hash is 'ooB2EW7dw5J7hD5Vc1ASmXWfibdwrivFHUHLY5MtRKfYgMqFWPo'
+Operation hash is 'op3zyuj5wFPxyyrLAicv99DBWxHdAWU9obAwmGPEULj5gy3bEUq'
 NOT waiting for the operation to be included.
 Use command
-  tezos-client wait for ooB2EW7dw5J7hD5Vc1ASmXWfibdwrivFHUHLY5MtRKfYgMqFWPo to be included --confirmations 30 --branch BMYs2gUj2Miamp4Wdi16BhSZNP5bFbextd2gZUSqMFizSD9pZwh
+  tezos-client wait for op3zyuj5wFPxyyrLAicv99DBWxHdAWU9obAwmGPEULj5gy3bEUq to be included --confirmations 30 --branch BLkZFogRt69qpkNRupifySnJfiPZTpoPTRn2SfgEDwsaK4xQCoX
 and/or an external block explorer to make sure that it has been included.
 This sequence of operations was run:
   Manager signed operations:
     From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
-    Fee to the baker: ꜩ0.005032
-    Expected counter: 623984
-    Gas limit: 45059
+    Fee to the baker: ꜩ0.005237
+    Expected counter: 623989
+    Gas limit: 47104
     Storage limit: 0 bytes
     Balance updates:
-      tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.005032
-      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,267) ... +ꜩ0.005032
+      tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm ............. -ꜩ0.005237
+      fees(tz1Ke2h7sDdakHJQh8WX4Z372du1KChsksyU,269) ... +ꜩ0.005237
     Transaction:
       Amount: ꜩ0
       From: tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm
-      To: KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh
-      Parameter: (Pair (Pair 1 (Left (Pair 42 "KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt")))
-                       { Some "edsigty6y3LSdJ4JBmCHLhegboGJyNdFKeHUpqrceuyY1UTQCo1Yq8kXJYMxoy1Wesd2Y5DXAMtYHwyuGRc2SWRMMwGXjgg8PCi" ;
-                         Some "edsigu4LH4EMH3YWvXM4nEAFGH3YYWWZGz1bn6BgFkaBuhBU9H9jXSjHzmfqWvqXYPvcTsjs96cQKLy1g36Hdy5rDbHDErHK7UD" })
+      To: KT1NUp9a8gC5xQJDi4E9hr2WRZpUxx8BQrT3
+      Parameter: (Pair (Pair 1 (Left (Pair 42 "KT1U2qHuZrKm7EwwRZ9j6XpZyd9y6VDhpQVo")))
+                       { Some "edsigtvraShNmfMppX65BDsJuaWjasWPie9qfNyTBHwGD2kyZMe7atTvm5CULseNSD4uKY2bzzGvQDq7Jks8yFp4DRdb9t5FKX4" ;
+                         Some "edsigu2ay8M6gXj2LqBmc3fJ7tMDuNP8ExiCBMFjBsi3sPSFWR8SWERNaymMqAivm9aWVAWLwiqu4qYMtBKp7B7oujM8DLxC5BM" })
       This transaction was successfully applied
       Updated storage:
         (Pair 2
               (Pair 1
                     { 0x00622ace8f1d06165b951d0362624033e6f6eb5650c45290ff0ddbff6055d2caa1 ;
                       0x00cc80ab168b04973d9e1f9d4d2248b077a9250d3bce750b2735b4818a7b9bb7d3 }))
-      Storage size: 768 bytes
-      Consumed gas: 31178
+      Storage size: 883 bytes
+      Consumed gas: 33222
     Internal operations:
       Transaction:
         Amount: ꜩ0
-        From: KT1VPPxpysE3jPur2TKajhEnM84a8YUHJ9Rh
-        To: KT1BktTrfpmfn4zFgpYeBvi6aSeKKziotYRt
+        From: KT1NUp9a8gC5xQJDi4E9hr2WRZpUxx8BQrT3
+        To: KT1U2qHuZrKm7EwwRZ9j6XpZyd9y6VDhpQVo
         Parameter: 42
         This transaction was successfully applied
-        Updated storage: 0x01e434087b4651ce2e3132592129765f42427bde9d00
+        Updated storage: 0x0198716bd8c37c014c606841e5f7398ed70d99a6a900
         Storage size: 149 bytes
-        Consumed gas: 13781
+        Consumed gas: 13782
 ```
 
 We have successfully signed with multiple administrators!
