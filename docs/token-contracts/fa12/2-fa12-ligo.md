@@ -142,7 +142,7 @@ Tezos smart contract.
 
 [0]: https://tezostaquito.io/
 [1]: https://github.com/ecadlabs/token-contract-example/blob/master/deploy.js
-[2]: https://ide.ligolang.org/p/4n70T9Z_iDwy6hH2Y0b3Pw
+[2]: https://ide.ligolang.org/p/_wMhdw_cuHep0cwdmgIWQA
 [3]: https://faucet.tzalpha.net/
 [4]: https://gitlab.com/ligolang/ligo-web-ide
 [5]: https://tezostaquito.io/docs/originate
