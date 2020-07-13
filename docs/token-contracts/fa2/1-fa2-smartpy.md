@@ -50,7 +50,7 @@ Let's download the “default” one:
 
 ```sh
  $ wget -O fa2_default.tz \
-        'https://gitlab.com/smondet/fa2-smartpy/-/raw/8bdeced/michelson/20200615-162614+0000_e1e6c44_contract.tz'
+        'https://gitlab.com/smondet/fa2-smartpy/-/raw/1c819206/michelson/20200713-150033+0000_7ee800d_contract.tz'
 
 ```
 
@@ -84,21 +84,21 @@ Let's originate such an unpaused empty contract while setting the
                 --burn-cap 10 \
                 --force --no-print-source
 ┃ Node is bootstrapped.
-┃ Estimated gas: 162143 units (will add 100 for safety)
-┃ Estimated storage: 5976 bytes added (will add 20 for safety)
+┃ Estimated gas: 163141 units (will add 100 for safety)
+┃ Estimated storage: 5924 bytes added (will add 20 for safety)
 ┃ Operation successfully injected in the node.
-┃ Operation hash is 'opPYWEZU6roG8Go5aJTXqEjrBpRProVRkW9G5a78QgoVa94mauh'
+┃ Operation hash is 'oovtgtWs9rMPzjXWZW7xKiL2jKztSELYZx31rWN7BJ2ovWsTKhT'
 ┃ Waiting for the operation to be included...
-┃ Operation found in block: BLtU6sJkjWQrDbhchnoPU55Ri32QZU5WXS3UyP7Bg2BuNWYsZLo (pass: 3, offset: 0)
+┃ Operation found in block: BKoE4rXA3uRkaqt8HA1SJEAAx6QBWHMmK6CTPhXsAyaNdVAjMrb (pass: 3, offset: 0)
 ┃ 
 ┃ ...
 ┃ 
 ┃           tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb ... -ꜩ0.257
-┃ New contract KT1QDFEu8JijYbsJqzoXq7mKvfaQQamHD1kX originated.
+┃ New contract KT1TnCemmqtViSLuCuNLcaU5mmrVXEiKdyee originated.
 ┃ The operation has only been included 0 blocks ago.
 ┃ We recommend to wait more.
 ┃ Use command
-┃   tezos-client wait for opPYWEZU6roG8Go5aJTXqEjrBpRProVRkW9G5a78QgoVa94mauh to be included --confirmations 30 --branch BLyM4VQmEaeF7DRgKLfdVrJNqZWak6Vg8h1pfeZb94aZXhTnKq4
+┃   tezos-client wait for oovtgtWs9rMPzjXWZW7xKiL2jKztSELYZx31rWN7BJ2ovWsTKhT to be included --confirmations 30 --branch BLXKCEzVAXckE1qKuF9YazYppKmYaEUjCw1HyMwYF2zeHu3b32A
 ┃ and/or an external block explorer.
 ┃ Contract memorized as myfa2.
 ```
@@ -128,22 +128,22 @@ For instance, let's, as `administrator`, mint 100 `TK0` tokens to `alice`:
                 --arg '(Pair (Pair "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb" 100) (Pair "TK0" 0))' \
                 --burn-cap 3
 ┃ Node is bootstrapped.
-┃ Estimated gas: 138188 units (will add 100 for safety)
+┃ Estimated gas: 139443 units (will add 100 for safety)
 ┃ Estimated storage: 168 bytes added (will add 20 for safety)
 ┃ Operation successfully injected in the node.
-┃ Operation hash is 'ooiZfX38CzU4Vj5TpjRGMCbCLBUCccc8MRXW6QbfDmyevPBmdmX'
+┃ Operation hash is 'ooGYaP6g4HKq11VybefzWgckcYj6nXWAJQggKaySkUmX6PtWGxw'
 ┃ Waiting for the operation to be included...
-┃ Operation found in block: BMHhkbEEVziZUU2izaWpMDcCrx5PaZU7zoDgdKE5XEcyEh5wReS (pass: 3, offset: 0)
+┃ Operation found in block: BMN2f3zap54tcih6z6UFH7e1gBTR8q2DvKBCtDbzy6urYgsAYSA (pass: 3, offset: 0)
 ┃ 
 ┃ ...
 ┃ 
-┃       Consumed gas: 138188
+┃       Consumed gas: 139443
 ┃       Balance updates:
 ┃         tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb ... -ꜩ0.168
 ┃ The operation has only been included 0 blocks ago.
 ┃ We recommend to wait more.
 ┃ Use command
-┃   tezos-client wait for ooiZfX38CzU4Vj5TpjRGMCbCLBUCccc8MRXW6QbfDmyevPBmdmX to be included --confirmations 30 --branch BLtU6sJkjWQrDbhchnoPU55Ri32QZU5WXS3UyP7Bg2BuNWYsZLo
+┃   tezos-client wait for ooGYaP6g4HKq11VybefzWgckcYj6nXWAJQggKaySkUmX6PtWGxw to be included --confirmations 30 --branch BKoE4rXA3uRkaqt8HA1SJEAAx6QBWHMmK6CTPhXsAyaNdVAjMrb
 ┃ and/or an external block explorer.
 ```
 
@@ -169,23 +169,23 @@ Here we, as `alice`, transfer 5 of our 100 TK0 to `bob`:
                 --arg '{ Pair "tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb" {Pair "tz1aSkwEot3L2kmUvcoxzjMomb9mvBNuzFK6" (Pair 0 5)} }' \
                 --burn-cap 3
 ┃ Node is bootstrapped.
-┃ Estimated gas: 139905 units (will add 100 for safety)
+┃ Estimated gas: 141400 units (will add 100 for safety)
 ┃ Estimated storage: 67 bytes added (will add 20 for safety)
 ┃ Operation successfully injected in the node.
-┃ Operation hash is 'oodqedFyRiKWQKecFNTof2RWQW1cGD3cL4hydLGLQKGC6YXgtyo'
+┃ Operation hash is 'oofdSz4HREvUZL2dXLNKcFT8AiVZHrEAT9PwBpgtD75ezaKU2H9'
 ┃ Waiting for the operation to be included...
-┃ Operation found in block: BKzMc5ibvoJgvhBbyoG1TBeXgjXVfkpA7a4i9spqT5tbxqBFsUD (pass: 3, offset: 0)
+┃ Operation found in block: BLoDvVLng1LY1aRoohoCPcL9p5QrozJDXPs3cECmNL1ccPDmR6R (pass: 3, offset: 0)
 ┃ This sequence of operations was run:
 ┃ 
 ┃ ...
 ┃ 
-┃       Consumed gas: 139905
+┃       Consumed gas: 141400
 ┃       Balance updates:
 ┃         tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb ... -ꜩ0.067
 ┃ The operation has only been included 0 blocks ago.
 ┃ We recommend to wait more.
 ┃ Use command
-┃   tezos-client wait for oodqedFyRiKWQKecFNTof2RWQW1cGD3cL4hydLGLQKGC6YXgtyo to be included --confirmations 30 --branch BMHhkbEEVziZUU2izaWpMDcCrx5PaZU7zoDgdKE5XEcyEh5wReS
+┃   tezos-client wait for oofdSz4HREvUZL2dXLNKcFT8AiVZHrEAT9PwBpgtD75ezaKU2H9 to be included --confirmations 30 --branch BMN2f3zap54tcih6z6UFH7e1gBTR8q2DvKBCtDbzy6urYgsAYSA
 ┃ and/or an external block explorer.
 ```
 
@@ -204,7 +204,7 @@ as exercise for the reader ☺). Let's save it as `get-balance.tz`:
 parameter
     (pair (pair (address %administrator)
                 (pair (nat %all_tokens) (big_map %ledger (pair address nat) nat)))
-          (pair (pair (unit %version_20200615_tzip_a57dfe86_contract)
+          (pair (pair (unit %version_20200713_tzip_a57dfe86_contract)
                       (big_map %operators (pair (address %owner) (address %operator)) unit))
                 (pair (bool %paused)
                       (big_map %tokens
@@ -261,7 +261,7 @@ Docker:
 ```sh
  $ fatoo --version
    # or:
-   docker run -it --rm --entrypoint fatoo registry.gitlab.com/smondet/fa2-smartpy:228dcfe9-run --version
+   docker run -it --rm --entrypoint fatoo registry.gitlab.com/smondet/fa2-smartpy:1c819206-run --version
 ```
 
 The `fatoo` application has many commands, see `fatoo [subcommand] --help`.
@@ -308,7 +308,7 @@ export fatoo_client='http://:20000/unencrypted:edsk3QoqBuvdamxouPhin7swCvkQNgq4j
 
 # Or, for docker, use:
 
-alias fatoo='docker run -it -u "$UID" --network host -v "$PWD:/work" -w /work --rm -e fatoo_client="http://:20000/unencrypted:edsk3QoqBuvdamxouPhin7swCvkQNgq4jP5KZPbwWNnwdZpSpJiEbq?wait=0" --entrypoint fatoo registry.gitlab.com/smondet/fa2-smartpy:228dcfe9-run'
+alias fatoo='docker run -it -u "$UID" --network host -v "$PWD:/work" -w /work --rm -e fatoo_client="http://:20000/unencrypted:edsk3QoqBuvdamxouPhin7swCvkQNgq4jP5KZPbwWNnwdZpSpJiEbq?wait=0" --entrypoint fatoo registry.gitlab.com/smondet/fa2-smartpy:1c819206-run'
 ```
 
 The application has a `client` subcommand which just calls `tezos-client`
@@ -383,6 +383,10 @@ The application contains the code for a few variants of the contract:
 ┃ * `single_contract`: The default for single-asset.
 ┃ * `single_mutran_contract`: The single-asset with mutez transfer entry-point.
 ┃ * `nft_mutran_contract`: The default in NFT mode with mutez transfer entry-point.
+┃ * `lzep_contract`: The default with lazy-entry-points flag.
+┃ * `lzepm_contract`: The default with lazy-entry-points-multiple flag.
+┃ * `lzep_mutran_contract`: The default with mutez-transfer and lazy-entry-points flag.
+┃ * `lzepm_mutran_contract`: The default with mutez-transfer and lazy-entry-points-multiple flag.
 ```
 
 One can dump the Michelson code into a file (see `fatoo get-code --help`),
@@ -399,14 +403,14 @@ transfer funds which may potentially end-up in the contract's balance.
 ‖ [FA2->Info]:
 ‖   Originations:
 ‖     * Success: mutran_contract (The default with mutez transfer entry-point)
-‖       -> KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+‖       -> KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ```
 
 The command has saved the contract address in the file:
 
 ```sh
  $ cat kt1_mutran_contract.txt
-┃ KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+┃ KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ```
 
 And we can already display the state of the contract (storage):
@@ -414,13 +418,13 @@ And we can already display the state of the contract (storage):
 ```sh
  $ fatoo show-storage "$(cat kt1_mutran_contract.txt)"
 ‖ [FA2->Info]:
-‖   Contract: KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+‖   Contract: KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ‖     Balance: 0 mutez
 ‖     Administrator: "tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe"
 ‖     Status: Ready
-‖     Tokens-big-map: 8
-‖     Ledger-big-map: 6
-‖     Operators-big-map: 7
+‖     Tokens-big-map: 11
+‖     Ledger-big-map: 9
+‖     Operators-big-map: 10
 ‖     All-Tokens: None
 ‖     Known-Owners-and-Operators: None
 ```
@@ -437,7 +441,7 @@ transfer from the configured “funding” account (amounts are in `mutez`):
          "${admin_pkh}" \
          10_000_000
 ‖ [FA2->Info]: Balance for tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe is now
-‖   1019615346 mutez.
+‖   1019615012 mutez.
 ```
 
 Note that for now `owner0` does not exist on chain, we're still minting
@@ -469,13 +473,13 @@ balances:
  $ fatoo show-storage "$(cat kt1_mutran_contract.txt)" \
          --known-address "$(cut -d, -f 3 owner0.csv)"
 ‖ [FA2->Info]:
-‖   Contract: KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+‖   Contract: KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ‖     Balance: 0 mutez
 ‖     Administrator: "tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe"
 ‖     Status: Ready
-‖     Tokens-big-map: 8
-‖     Ledger-big-map: 6
-‖     Operators-big-map: 7
+‖     Tokens-big-map: 11
+‖     Ledger-big-map: 9
+‖     Operators-big-map: 10
 ‖     All-Tokens: 0 = TQ0 -> total: 1000000.
 ‖                 1 = TQ1 -> total: 2000.
 ‖     Known-Owners-and-Operators:
@@ -491,7 +495,7 @@ gas to that address:
  $ fatoo fund-address \
          "${owner0_pkh}" \
          1_000_000
-‖ [FA2->Info]: Balance for tz1MUP3sCWTUQRG2Hon7uhRfmuYZ4guEQntS is now 1699934
+‖ [FA2->Info]: Balance for tz1MUP3sCWTUQRG2Hon7uhRfmuYZ4guEQntS is now 1699640
 ‖   mutez.
 ```
 
@@ -516,13 +520,13 @@ We can then observe the resulting state:
          --known-address "$(cut -d, -f 3 owner1.csv)" \
          --known-address "$(cut -d, -f 3 owner2.csv)"
 ‖ [FA2->Info]:
-‖   Contract: KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+‖   Contract: KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ‖     Balance: 0 mutez
 ‖     Administrator: "tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe"
 ‖     Status: Ready
-‖     Tokens-big-map: 8
-‖     Ledger-big-map: 6
-‖     Operators-big-map: 7
+‖     Tokens-big-map: 11
+‖     Ledger-big-map: 9
+‖     Operators-big-map: 10
 ‖     All-Tokens: 0 = TQ0 -> total: 1000000.
 ‖                 1 = TQ1 -> total: 2000.
 ‖     Known-Owners-and-Operators:
@@ -581,13 +585,13 @@ We see that now, the same operator is present in every account:
          --known-address "$(cut -d, -f 3 owner2.csv)" \
          --known-address "$(cut -d, -f 3 operator.csv)"
 ‖ [FA2->Info]:
-‖   Contract: KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+‖   Contract: KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ‖     Balance: 0 mutez
 ‖     Administrator: "tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe"
 ‖     Status: Ready
-‖     Tokens-big-map: 8
-‖     Ledger-big-map: 6
-‖     Operators-big-map: 7
+‖     Tokens-big-map: 11
+‖     Ledger-big-map: 9
+‖     Operators-big-map: 10
 ‖     All-Tokens: 0 = TQ0 -> total: 1000000.
 ‖                 1 = TQ1 -> total: 2000.
 ‖     Known-Owners-and-Operators:
@@ -614,7 +618,7 @@ tokens:
          2_000_000_000
 
 ‖ [FA2->Info]: Balance for tz1NkpWhHsBSZHPg2Ljz2hycRiZvcYdcyu85 is now
-‖   2999834922 mutez.
+‖   2999834581 mutez.
 ```
 
 ```sh
@@ -640,13 +644,13 @@ for `operator` who owns the total supply:
          --known-address "$(cut -d, -f 3 owner2.csv)" \
          --known-address "$(cut -d, -f 3 operator.csv)"
 ‖ [FA2->Info]:
-‖   Contract: KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+‖   Contract: KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ‖     Balance: 0 mutez
 ‖     Administrator: "tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe"
 ‖     Status: Ready
-‖     Tokens-big-map: 8
-‖     Ledger-big-map: 6
-‖     Operators-big-map: 7
+‖     Tokens-big-map: 11
+‖     Ledger-big-map: 9
+‖     Operators-big-map: 10
 ‖     All-Tokens: 0 = TQ0 -> total: 1000000.
 ‖                 1 = TQ1 -> total: 2000.
 ‖     Known-Owners-and-Operators:
@@ -690,11 +694,11 @@ a few XTZ as amount:
 ┃ 
 ┃       Balance updates:
 ┃         tz1NkpWhHsBSZHPg2Ljz2hycRiZvcYdcyu85 ... -ꜩ1000
-┃         KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet ... +ꜩ1000
+┃         KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD ... +ꜩ1000
 ┃ The operation has only been included 0 blocks ago.
 ┃ We recommend to wait more.
 ┃ Use command
-┃   tezos-client wait for op8uscKrjLLRLbPcAArkNA96G81He7GAyJaRN43HSTYz9hGWA8G to be included --confirmations 30 --branch BMczco1G6WcgSZcrxALLvHH27MNeEagdZLgkQgLivfbxXYMr7dV
+┃   tezos-client wait for oozc5sDm9kv6ewSAYEGYVMHZsevuSmpLD9nDahuaLx6nA6jhgN4 to be included --confirmations 30 --branch BMdznY7TFCeP2pKJwSAtspxsWqejr2qGyf4KFjBzG9i3n1UaMyN
 ┃ and/or an external block explorer.
 ```
 
@@ -703,13 +707,13 @@ We see that `fatoo` shows a non-zero balance for the contract now:
 ```sh
  $ fatoo show-storage "$(cat kt1_mutran_contract.txt)"
 ‖ [FA2->Info]:
-‖   Contract: KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+‖   Contract: KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ‖     Balance: 1000000000 mutez
 ‖     Administrator: "tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe"
 ‖     Status: Ready
-‖     Tokens-big-map: 8
-‖     Ledger-big-map: 6
-‖     Operators-big-map: 7
+‖     Tokens-big-map: 11
+‖     Ledger-big-map: 9
+‖     Operators-big-map: 10
 ‖     All-Tokens: 0 = TQ0 -> total: 1000000.
 ‖                 1 = TQ1 -> total: 2000.
 ‖     Known-Owners-and-Operators: None
@@ -730,12 +734,12 @@ called `mutez_transfer` and takes a pair `mutez × address`:
 ┃ ...
 ┃ 
 ┃         Balance updates:
-┃           KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet ... -ꜩ1000
+┃           KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD ... -ꜩ1000
 ┃           tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe ... +ꜩ1000
 ┃ The operation has only been included 0 blocks ago.
 ┃ We recommend to wait more.
 ┃ Use command
-┃   tezos-client wait for opZKyFQPJ8vEn4KebgHwiE7poxDdgy1eJGDfiTPh7ttbkNeSyT7 to be included --confirmations 30 --branch BKiM7KPBrDeexNQDWWeHzQnnLjbUrxEN7x3ZwkpX1dHPaGmVTWb
+┃   tezos-client wait for oneHu7p96YAJxtNQ3s5zkhYaptyPfJJjyVRE3Esn1csbJ1iptpy to be included --confirmations 30 --branch BLEw8ZefdkbSuNMf49MEV9i3ddGo4V7Fambs5u9PWp5ZiRdbXCK
 ┃ and/or an external block explorer.
 ```
 
@@ -744,13 +748,13 @@ We see that the balance is gone from the KT1:
 ```sh
  $ fatoo show-storage "$(cat kt1_mutran_contract.txt)"
 ‖ [FA2->Info]:
-‖   Contract: KT19op5ppfGdTiXg3zT693cDtWe3hHyp2Xet
+‖   Contract: KT1NtMVghqZxKxv6o1n16V74gXTYnw16MfnD
 ‖     Balance: 0 mutez
 ‖     Administrator: "tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe"
 ‖     Status: Ready
-‖     Tokens-big-map: 8
-‖     Ledger-big-map: 6
-‖     Operators-big-map: 7
+‖     Tokens-big-map: 11
+‖     Ledger-big-map: 9
+‖     Operators-big-map: 10
 ‖     All-Tokens: 0 = TQ0 -> total: 1000000.
 ‖                 1 = TQ1 -> total: 2000.
 ‖     Known-Owners-and-Operators: None
@@ -761,7 +765,7 @@ We see that the balance is gone from the KT1:
 ```sh
  $ tezos-client get balance for \
                 "${admin_pkh}"
-┃ 2019.231853 ꜩ
+┃ 2019.231185 ꜩ
 
 ```
 
