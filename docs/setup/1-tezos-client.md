@@ -140,7 +140,7 @@ Error:
 > tutorials to avoid this error. If you use your own local Tezos node you can
 > omit `--wait none`, the error won't happen.
 
-Make a variable for Alice's account address  (PHK) (notice that the address
+Make a variable for Alice's account address  (PKH) (notice that the address
 is the same as the name of your faucet `.json` file):
 
 ```shell
