@@ -20,7 +20,7 @@ $ brew install tezos
 
 ### Linux (64-bit)
 
-A quick and easy way to get tezos-client running on linux is to download the latest `tezos-client` binary, make it executable, and put it somewhere in your path.
+A quick and easy way to get tezos-client running on Linux is to download the latest `tezos-client` binary, make it executable, and put it somewhere in your path.
 Alternatively you can add a package repository for your distribution, and install it from there.
 Using a package is a good idea for production systems as it automates the installation and allow easy updates.
 
@@ -63,7 +63,7 @@ section.
 
 ### Try it out
 Verify that you can run tezos-client and that it points to test
-nework:
+network:
 
 ```
 $ tezos-client
