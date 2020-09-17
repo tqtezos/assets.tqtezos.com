@@ -16,9 +16,9 @@ The contract and its formal specification are written in the [Archetype language
 For verification purposes, Archetype translates the contract to the Why3 language; [Why3](http://why3.lri.fr/) is a generic program verification platform; it generates proof obligations and calls [SMT](https://en.wikipedia.org/wiki/Satisfiability_modulo_theories) solvers to solve them.
 
 ## Generate Michelson
-The Archetype source code is available [here](https://github.com/edukera/archetype-lang/blob/aae7c0a20a5a42ed0597c831ec7b06245873bc0d/contracts/fa12.arl).
+The Archetype source code is available [here](https://github.com/edukera/archetype-lang/blob/0a5ad0832709ac102a14534f22d4f94cb185866d/contracts/fa12.arl).
 
-> SHA256 (fa12.arl) = bb8d46c2fe6feb401c1195f18af693d1762df84cb917409c08ec10c07800f816
+> SHA256 (fa12.arl) = d38260e5f55e630880ecd5d5ed32eb91988d2f34b43a7c031275d8f8a8715184
 
 The following command generates the Michelson version of the contract in the `fa12.tz` file:
 ```
