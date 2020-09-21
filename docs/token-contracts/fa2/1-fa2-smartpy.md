@@ -1,7 +1,7 @@
 ---
 id: 1-fa2-smartpy
 title: Using FA2-SmartPy
-sidebar_label: FA2 SmartPy
+sidebar_label: FA2-SmartPy
 ---
 
 This tutorial shows how to interact with the “FA2-SmartPy” implementation
