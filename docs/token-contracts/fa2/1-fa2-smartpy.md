@@ -41,7 +41,7 @@ In the case of the sandbox tutorial we use `alice` also as `originator` and
 ### Get The Michelson Code
 
 FA2-SmartPy uses SmartPy's meta-programming facilities to provide more than
-one Michelson contract, a.k.a. _“builds.”_. A few of the builds are
+one Michelson contract, a.k.a. *“builds.”*. A few of the builds are
 available at
 <https://gitlab.com/smondet/fa2-smartpy/-/tree/master/michelson>, see
 [below](#originate) for a description of the various builds.
@@ -90,9 +90,9 @@ Let's originate such an unpaused empty contract while setting the
 ┃ Operation hash is 'opa4ZVgJGkXzeRypcnqso1CF8LrgVEYq4R2QwGkFT2kzw2L9Tqp'
 ┃ Waiting for the operation to be included...
 ┃ Operation found in block: BM2FVXcXeYxBaDPkt1X2etZrnkJTG19pazm6wd5FVCrxGm6tS2o (pass: 3, offset: 0)
-┃
+┃ 
 ┃ ...
-┃
+┃ 
 ┃           tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb ... -ꜩ0.257
 ┃ New contract KT1FQrHRqqqZ23Md9Ec5KJ3WK66fNxi9izZJ originated.
 ┃ The operation has only been included 0 blocks ago.
@@ -134,9 +134,9 @@ For instance, let's, as `administrator`, mint 100 `TK0` tokens to `alice`:
 ┃ Operation hash is 'ooL9T4cK1RyYz4HxjfyixPW3n5iJf2hX6G47iQToa7sDTb6fjHr'
 ┃ Waiting for the operation to be included...
 ┃ Operation found in block: BMGWJeRyTtUL2Pi9xgAi3MU7kkgMCr4pUeYALaVhQAi4uJS37ae (pass: 3, offset: 0)
-┃
+┃ 
 ┃ ...
-┃
+┃ 
 ┃       Consumed gas: 117731
 ┃       Balance updates:
 ┃         tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb ... -ꜩ0.163
@@ -176,9 +176,9 @@ Here we, as `alice`, transfer 5 of our 100 TK0 to `bob`:
 ┃ Waiting for the operation to be included...
 ┃ Operation found in block: BM2yNL1kjRJvrSeuzX2P6iid4f5Fx7JBjn2K2MYYsYTF3eFcVQ4 (pass: 3, offset: 0)
 ┃ This sequence of operations was run:
-┃
+┃ 
 ┃ ...
-┃
+┃ 
 ┃       Consumed gas: 119800
 ┃       Balance updates:
 ┃         tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb ... -ꜩ0.067
@@ -234,9 +234,9 @@ read the error message:
  $ tezos-client run script get-balance.tz on storage Unit \
                 and input \
                 "$(tezos-client get contract storage for myfa2)"
-‖
+‖ 
 ‖ ...
-‖
+‖ 
 ‖   22:     GET ; # Get the value in the ledger at the above key
 ‖   23:     FAILWITH
 ‖   24:  };
@@ -247,14 +247,14 @@ read the error message:
 ‖   error running script
 ```
 
-We can _clearly_ see in the error value (passed to `FAILWITH`) that `alice`'s
-balance is 95 TK0 (100 minted _minus_ 5 transferred to `bob`).
+We can *clearly* see in the error value (passed to `FAILWITH`) that `alice`'s
+balance is 95 TK0 (100 minted *minus* 5 transferred to `bob`).
 
 ## The `fatoo` Application
 
 ### Obtain and Setup Client
 
-In this section we use the `fatoo` command line interface to some _builds_ of
+In this section we use the `fatoo` command line interface to some *builds* of
 FA2-SmartPy. You need `fatoo` installed in your `$PATH` or you may use
 Docker:
 
@@ -264,36 +264,36 @@ Docker:
    docker run -it --rm --entrypoint fatoo registry.gitlab.com/smondet/fa2-smartpy:4acac092-run --version
 ```
 
-The `fatoo` application has many commands, see `fatoo [subcommand] --help`.
+The `fatoo` application has many commands, see `fatoo [subcommand] --help`.
 At the same time, it is work-in-progress, so feel free to submit issues and
 feature requests in the main
 [repository](https://gitlab.com/smondet/fa2-smartpy/).
 
 Two environment variables can be used to configure
 
-- `fatoo_root_path`: logs, outputs
-- `fatoo_client`: the more important one, it is an URI describing how to
+* `fatoo_root_path`: logs, outputs
+* `fatoo_client`: the more important one, it is an URI describing how to
   configure `tezos-client` and talk to the node:
 
-See command `fatoo show-client-uri-documentation`:
+See command `fatoo show-client-uri-documentation`:
 
 <!-- output of fatoo show-client-uri-doc --><blockquote>
 
 The URI follows the usual pattern:
 `<scheme>://<host>:<port>/<path>?<options>`:
 
-- `<scheme>` can be `http` or `http` (`--tls` option);
-- `<host>:<port>` defines the connection to the node;
-- `<path>` is the private-key (URI) for the “funder” account which is
+* `<scheme>` can be `http` or `http` (`--tls` option);
+* `<host>:<port>` defines the connection to the node;
+* `<path>` is the private-key (URI) for the “funder” account which is
   used to pay for gas and storage.
 
 Available `<options>` are:
 
-- `bake=true`: use the `funder` account to also bake blocks after injecting
+* `bake=true`: use the `funder` account to also bake blocks after injecting
   operations (useful for “manual” sandboxes);
-- `wait=<INT>`: set the `--wait` option of `tezos-client` (how many blocks to
+* `wait=<INT>`: set the `--wait` option of `tezos-client` (how many blocks to
   wait after an operation is injected);
-- `command=<STRING>`: use an alternative command for `tezos-client`.
+* `command=<STRING>`: use an alternative command for `tezos-client`.
 
 See for instance the current default:
 `http://:2020/unencrypted:edsk3S7mCwuuMVS21jsYTczxBU4tgTbQp98J3YmTGcstuUxsrZxKYd?bake=true`.
@@ -389,7 +389,7 @@ The application contains the code for a few variants of the contract:
 ┃ * `lzepm_mutran_contract`: The default with mutez-transfer and lazy-entry-points-multiple flag.
 ```
 
-One can dump the Michelson code into a file (see `fatoo get-code --help`),
+One can dump the Michelson code into a file (see `fatoo get-code --help`),
 but there is no need since one can directly originate contracts from the
 application. Let's originate `mutran_contract`, the full blown FA2
 implementation with an extra entry-point which allows the administrator to
@@ -553,7 +553,7 @@ Let's create an `operator` key-pair:
 ```
 
 We will now get all the owners to delegate _all_ their tokens to
-“operator,” see also the command `fatoo call-update-operators --help`:
+“operator,” see also the command `fatoo call-update-operators --help`:
 
 ```sh
  $ fatoo call-update-operators \
@@ -612,7 +612,7 @@ We see that now, the same operator is present in every account:
 ‖       * Owner: "tz1NkpWhHsBSZHPg2Ljz2hycRiZvcYdcyu85" [0 ops] [0 toks]
 ```
 
-Finally, let's get `operator` to run a _batch-transfer-heist_ of all the
+Finally, let's get `operator` to run a *batch-transfer-heist* of all the
 tokens:
 
 ```sh
@@ -692,9 +692,9 @@ a few XTZ as amount:
                 to "$(cat kt1_mutran_contract.txt)" \
                 --entrypoint transfer \
                 --arg '{}' --burn-cap 1
-┃
+┃ 
 ┃ ...
-┃
+┃ 
 ┃       Balance updates:
 ┃         tz1NkpWhHsBSZHPg2Ljz2hycRiZvcYdcyu85 ... -ꜩ1000
 ┃         KT1Qmqtc6pYnivEkR1Pedt684XSH4RjmoU6w ... +ꜩ1000
@@ -733,9 +733,9 @@ called `mutez_transfer` and takes a pair `mutez × address`:
                 --entrypoint mutez_transfer \
                 --arg "Pair 1000000000 \"${admin_pkh}\"" \
                 --burn-cap 1
-┃
+┃ 
 ┃ ...
-┃
+┃ 
 ┃         Balance updates:
 ┃           KT1Qmqtc6pYnivEkR1Pedt684XSH4RjmoU6w ... -ꜩ1000
 ┃           tz1ZnxqPNMXyiZLTANYJLJ9ZTBpQ5Qu16BXe ... +ꜩ1000
@@ -779,12 +779,13 @@ a user's perspective. Please provide any feedback using the repository's
 [issues](https://gitlab.com/smondet/fa2-smartpy/-/issues). Further reading
 includes:
 
-- the TZIP-12
+* the TZIP-12
   [specification](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md)
   itself;
-- the implementation source code
+* the implementation source code
   [`multi_asset.py`](https://gitlab.com/smondet/fa2-smartpy/-/blob/master/multi_asset.py);
-- the Agora (blog)
+* the Agora (blog)
   [post](https://forum.tezosagora.org/t/implementing-fa2-an-update-on-the-fa2-specification-and-smartpy-implementation-release/1870)
   introducing the project;
-- 🚧 and more to come … 👷
+* 🚧 and more to come … 👷
+
