@@ -25,7 +25,7 @@ The following command generates the Michelson version of the contract in the `fa
 $ archetype fa12.arl > fa12.tz
 ```
 
-> Install [Archetype](https://docs.archetype-lang.org/getting-started-1#installation).
+> Install [Archetype](https://docs.archetype-lang.org/getting-started-1#installation) (minimum required version : 1.2.0).
 
 ## Originate contract
 
