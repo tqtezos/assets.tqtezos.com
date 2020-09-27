@@ -57,7 +57,7 @@ This section presents:
 * the contract invariant property
 * the properties verified by the `transfer` entry point and the contract invariant
 
-The whole formal specification may be found [here](./4-fa12-archetype-properties).
+The whole formal specification may be found [here](https://docs.archetype-lang.org/contract-library/tokens/fa-1.2/formal-properties).
 
 The contract declares two [assets](https://docs.archetype-lang.org/archetype-language/data-model):
 
@@ -281,7 +281,7 @@ length (operations) = 0
 
 ### Other entry points properties
 
-Properties of other entry points (`approve`, `getAllowance`, `getBalance` and `getTotalSupply`) may be found [here](./4-fa12-archetype-properties).
+Properties of other entry points (`approve`, `getAllowance`, `getBalance` and `getTotalSupply`) may be found [here](https://docs.archetype-lang.org/contract-library/tokens/fa-1.2/formal-properties).
 
 ## Verify properties
 This section presents how to verify the contract properties with Why3.
