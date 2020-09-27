@@ -18,6 +18,8 @@ For verification purposes, Archetype translates the contract to the Why3 languag
 ## Generate Michelson
 The Archetype source code is available [here](https://github.com/edukera/archetype-lang/blob/0a5ad0832709ac102a14534f22d4f94cb185866d/contracts/fa12.arl).
 
+This implementation of FA1.2 does not allow minting, that is that the `totalsupply` is the intial and final number of tokens.
+
 > SHA256 (fa12.arl) = d38260e5f55e630880ecd5d5ed32eb91988d2f34b43a7c031275d8f8a8715184
 
 The following command generates the Michelson version of the contract in the `fa12.tz` file:
@@ -42,17 +44,20 @@ The address passed as the initial caller (here `tz1dEezCSqMVsmfnaAZS2rBJZfdFCZEy
 
 The following command originates the contract:
 ```
-$ tezos-client -S -A testnet-tezos.giganode.io -P 443 originate contract fa12 transferring 0 from alice running fa12.tz --init '(Pair {  } { Elt "tz1dEezCSqMVsmfnaAZS2rBJZfdFCZEyA7DP" 10000000 })' --burn-cap 0 --force -D
+$ tezos-client originate contract fa12 transferring 0 from alice running fa12.tz --init '(Pair {  } { Elt "tz1dEezCSqMVsmfnaAZS2rBJZfdFCZEyA7DP" 10000000 })' --burn-cap 0 --force
 ```
 
-The cost of origination (at the time of writing) is **2.5ꜩ** on the testnet.
+We assume here that a *tezos sandbox* is used for faster testing purpose.
 
-It uses the [Giganode](https://tezos.giganode.io/) Tezos nodes infrastructure.
+> Install [Tezos client](../../../docs/setup/1-tezos-client) and [Tezos sandbox](../../../docs/setup/2-sandbox).
 
-> Install [Tezos client](../../../docs/setup/1-tezos-client).
 
 ## Formal properties
-This section presents the properties verified by the originated contract.
+This section presents:
+* the contract invariant property
+* the properties verified by the `transfer` entry point and the contract invariant
+
+The whole formal specification may be found [here](./4-fa12-archetype-properties).
 
 The contract declares two [assets](https://docs.archetype-lang.org/archetype-language/data-model):
 
@@ -78,12 +83,18 @@ The `allowance` asset stores the amount of tokens that can be spent by `addr_spe
 
 ### Contract invariant
 
+A contract invariant is a property that is verified regardless of the state of the storage.
+
 ```archetype
 ledger.sum(tokens) = totalsupply
 ```
-> The total number of tokens is equal to `totalsupply` regardless of the state of the contract storage.
+> No token is minted: the total number of tokens is equal to the initial `totalsupply` number of tokens.
 
 ### transfer
+
+This section presents the properties of the `transfer` entry point.
+
+First let's have a look at the Archetype implementation:
 
 ```archetype
 entry %transfer (%from : address, %to : address, value : nat) {
@@ -111,9 +122,23 @@ let some after_ledger_from  = ledger[%from] in
   after_ledger_from = { before_ledger_from with
     tokens = (before_ledger_from.tokens - value)
   }
-otherwise false otherwise false
+otherwise false
+otherwise false
 ```
 > When the `%to` address is different from the `%from` address, the number of tokens `%to` possesses is decread by `value`.
+
+Elements of formal property language:
+* `... -> ...` is the logical implication; it reads 'if ... then ...' (or '... implies ...')
+* `let some ... in ... otherwise ...` is necessary because the `[  ]` operator on asset collection returns an option of asset; the `otherwise` branch is used to state property when the asset does not exist
+* `before` refers to the state of the asset collection *before* execution of the entry point; without modifier, the default asset collection identifier refers to the state of the collection *after* execution
+
+Please refer to the [documentation](https://docs.archetype-lang.org/archetype-language/contract-specification) for further explanation.
+
+Thus the property reads: if `%from` is different from `%to` then the `%from` token holder *after* execution is equal to the `%from` token holder *before* execution except for the `tokens` field which is decreased by `value`.
+
+Postconditions apply *when the entry point does not fail*.
+
+The `transfer` entry fails when the `%from` token holder is not found in `ledger`. Therefore the contradiction property `false` is stated when the `%from` token holder is not found, whether *before* or *after* execution.
 
 ##### 1.2/ Effect on `%to` token holder
 ```archetype
@@ -147,12 +172,20 @@ before.ledger[tokenholder.holder] = some(tokenholder)
 ```
 > Tokenholders other than `%from` and `%to`, are not modified nor added to `ledger`.
 
+Elements of formal property language:
+* `forall ... in ... , ...` is used to state property for all assets in a collection
+
+This property reads: for every token holder in the `ledger` collection *after* execution, if its `holder` field is different from `%from`, if its `holder` field is different from `%to`, then it is equal to the token holder *before* execution.
+
 ##### 1.5/ Removed `ledger` records
 
 ```archetype
 removed.ledger.isempty()
 ```
 > No record is removed from `ledger`.
+
+Elements of formal property language:
+* `removed` refers to the collection of removed assets due to the effect of entry point execution.
 
 ##### 1.6/ Added `ledger` records
 
@@ -163,6 +196,9 @@ otherwise
   added.ledger = [ { holder = %to; tokens = value } ]
 ```
 > The added record in 'ledger', if any, is the `%to` record.
+
+Elements of formal property language:
+* `added` refers to the collection of added assets due to the effect of entry point execution.
 
 #### 2/ Effect on `allowance`
 
@@ -205,6 +241,8 @@ removed.allowance.isempty() and added.allowance.isempty()
 
 #### 3/ Explicit `fail`
 
+When the entry may explicitly fail, that is when it uses the `fail` instruction, it is possible to provide all the conditions of failure.
+
 ##### 3.1/ Not Enough Balance
 
 ```archetype
@@ -217,6 +255,11 @@ fails with (msg : string) :
 
 > When the entry fails with message "NotEnoughBalance", `value` is stricly greater than the number of tokens of `%to`.
 > Cannot spend more than you own.
+
+Element of formal property language:
+* `fails with (...) : ...` declares the property when `fail` is invoked; the `with (... : ...)` syntax enables naming the fail argument and provide its type
+
+The conditions of failure are provided as a conjonction of properties connected by the `and` logical connector.
 
 ##### 3.2/ Not Enough Allowance
 ```archetype
@@ -236,189 +279,21 @@ length (operations) = 0
 ```
 > No operation generated.
 
-### approve
+### Other entry points properties
 
-```archetype
-entry approve(spender : address, value : nat) {
-  var k = (caller, spender);
-  if allowance.contains(k) then (
-    var previous = allowance[k].amount;
-    dofailif(previous > 0 and value > 0, (("UnsafeAllowanceChange", previous)));
-  );
-  allowance.addupdate( k, { amount = value });
-}
-```
-
-#### 1/ Effect on `ledger`
-```archetype
-ledger = before.ledger
-```
-> No effect on `ledger`.
-
-
-#### 2/ Effect on `allowance`
-
-##### 2.1/ Effect on `(caller,spender)` allowance record
-```archetype
-let some after_allowance_caller_spender = allowance[(caller,spender)] in
-let some before_allowance_caller_spender = before.allowance[(caller,spender)] in
-  after_allowance_caller_spender = { before_allowance_caller_spender with
-    amount = value
-  }
-otherwise
-  after_allowance_caller_spender = {
-    addr_owner = caller;
-    addr_spender = spender;
-    amount = value
-  }
-otherwise false
-```
-> Allowed amount of tokens spendable by `spender` on the behalf of `caller` is set to `value`.
-
-
-##### 2.2/ Unchanged `allowance` records
-````archetype
-forall a in allowance,
-(a.addr_owner, a.addr_spender) <> (caller, spender) ->
-before.allowance[(a.addr_owner, a.addr_spender)] = some(a)
-````
-> Other allowed amounts than the allowed amount of tokens spendable by `spender` on the behalf of `caller`, are unchanged.
-
-##### 2.3/ Added `allowance` records
-````archetype
-let some allowance_caller_spender = before.allowance[(caller, spender)] in
-  added.allowance.isempty()
-otherwise
-  added.allowance = [ { addr_owner = caller; addr_spender = spender; amount = value } ]
-````
-> The added `allowance` record, if any, is the `caller` and `spender` one.
-
-##### 2.4/ Removed `allowance` records
-````archetype
-removed.allowance.isempty()
-````
-> No record is removed from `allowance`.
-
-#### 3/ Explicit `fail`
-
-```archetype
-fails with (msg : (string * nat)) :
-let some allowance_caller_spender = allowance[(caller,spender)] in
-  msg = ("UnsafeAllowanceChange", allowance_caller_spender.amount) and
-  value > 0 and
-  allowance_caller_spender.amount > 0
-otherwise false
-```
-> When the entry fails with message "UnsafeAllowanceChange", `value` is strictly greater than 0 and the allowed amount of tokens spendable by `spender` on the behalf of `caller` is not equal to zero.
-
-Note that in that case, it may be set back to 0 by having `spender` call the `transfer` entry to transfer a number of tokens equal to the remaining allowed amount, from the approver address (ie `caller` above) to the approver address (ie to itself).
-
-Indeed, according to properties [1.3](#13-no-effect-on-ledger) and [2.1](#21-effect-on-fromcaller-allowance-record) of the `transfer` entry, this has no effect on `ledger` and sets allowance record to 0.
-
-#### 4/ Effect on `operations`
-```archetype
-length (operations) = 0
-```
-> No operation generated.
-
-### getAllowance
-
-```archetype
-getter getAllowance (owner : address, spender : address) : nat {
-  return (allowance[(owner, spender)].amount)
-}
-```
-
-#### 1/ Effect on `ledger`
-```archetype
-ledger = before.ledger
-```
-> No effect on `ledger`.
-
-#### 2/ Effect on `allowance`
-```archetype
-allowance = before.allowance
-```
-> No effect on `allowance`.
-
-#### 3/ Explicit `fail`
-No explicit fail. The entry implicitely fails though if the provided callback is invalid.
-
-#### 4/ Effect on `operations`
-```archetype
-length (operations) = 1
-```
-> Creates one callback operation.
-
-### getBalance
-
-```archetype
-getter getBalance (owner : address) : nat {
-  return (ledger[owner].tokens)
-}
-```
-
-#### 1/ Effect on `ledger`
-```archetype
-ledger = before.ledger
-```
-> No effect on `ledger`.
-
-#### 2/ Effect on `allowance`
-```archetype
-allowance = before.allowance
-```
-> No effect on `allowance`.
-
-#### 3/ Explicit fail
-No explicit fail. The entry implicitely fails though if the provided callback is invalid.
-
-#### 4/ Effect on `operations`
-```archetype
-length (operations) = 1
-```
-> Creates one callback operation.
-
-
-### getTotalSupply
-
-```archetype
-getter getTotalSupply () : nat {
-  return totalsupply
-}
-```
-
-#### 1/ Effect on `ledger`
-```archetype
-ledger = before.ledger
-```
-> No effect on `ledger`.
-
-#### 2/ Effect on `allowance`
-```archetype
-allowance = before.allowance
-```
-> No effect on `allowance`.
-
-#### 3/ Explicit `fail`
-No explicit fail. The entry implicitely fails though if the provided callback is invalid.
-
-#### 4/ Effect on `operations`
-```archetype
-length (operations) = 1
-```
-> Creates one callback operation.
-
+Properties of other entry points (`approve`, `getAllowance`, `getBalance` and `getTotalSupply`) may be found [here](./4-fa12-archetype-properties).
 
 ## Verify properties
 This section presents how to verify the contract properties with Why3.
 
-The following command generates the whyml version of the contract:
+The following command generates the WhyML version of the contract:
 ```
 $ archetype -t whyml fa12.arl > fa12.mlw
 ```
 
-The following command launches the why3 IDE on the whyml version:
+The generated WhyML contract is annotated with the properties. The role of Why3 is to generate proof obligations in [SMT solvers](https://en.wikipedia.org/wiki/Satisfiability_modulo_theories) formats for automatic verification.
+
+The following command launches the why3 IDE on the WhyML version:
 ```
 $ why3 ide -L $OPAM_SWITCH_PREFIX/share/archetype/mlw fa12.mlw
 ```
@@ -429,9 +304,13 @@ Archetype: Verify with Why3
 ```
 > Install [why3](https://docs.archetype-lang.org/getting-started-1#verification-tools)
 
-Right-click on the `Fa12` module in the left-hand panel, and select `Auto level 2` as the solving strategy:
+108 proof obligations are generated for this contract.
+
+Right-click on the `Fa12` module in the left-hand panel, and select `Auto level 2` as the solving strategy.
 
 ![why3 session](/img/why3_session.png)
+
+`Auto level 2` is a strategy that first applies a few provers on the goal with a short time limit, then splits the goal and tries again on the subgoals.
 
 #### Trusted Computing Base
 
