@@ -24,7 +24,7 @@ Start the sandbox *in the background* (will run with baking enabled):
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       registry.gitlab.com/tezos/flextesa:image-tutobox-run carthagebox start
+       tqtezos/flextesa:20200925 carthagebox start
 ```
 
 After a few seconds this should succeed:
@@ -44,7 +44,7 @@ Then, instead of using a public faucet one can just use ꜩ by importing account
 already existing in the sandbox. They are visible with:
 
 ```
- $ docker run --rm registry.gitlab.com/tezos/flextesa:image-tutobox-run carthagebox info
+ $ docker run --rm tqtezos/flextesa:20200925 carthagebox info
 
 Usable accounts:
 
@@ -97,6 +97,8 @@ When you're done playing, just destroy the container:
 
 ## Advanced Usage
 
+### Tweak Protocol Constants
+
 One can see the configuration of the protocol running in the sandbox with:
 
 ```shell
@@ -110,20 +112,53 @@ This constant can be configured with the `block_time` environment variable, see
 example below:
 
 ```shell
-docker run --rm --name my-sandbox -e block_time=10 --detach -p 20000:20000 \
-       registry.gitlab.com/tezos/flextesa:image-tutobox-run carthagebox start
+docker run --rm --name my-sandbox -e block_time=2 --detach -p 20000:20000 \
+       tqtezos/flextesa:20200925 carthagebox start
 ```
 
-The above command runs a full sandbox with the Carthage protocol and a slower
-time-between-blocks of 10 seconds.
+The above command runs a full sandbox with the Carthage protocol and a faster
+time-between-blocks of 2 seconds.
 
 Many other parameters are set by the `carthagebox`
-[script](https://gitlab.com/tezos/flextesa/-/blob/image-tutobox/src/scripts/tutorial-box.sh).
+[script](https://gitlab.com/tezos/flextesa/-/blob/master/src/scripts/tutorial-box.sh).
 All the configuration options available can be seen with the command:
 
 ```bash
-docker run --rm -it registry.gitlab.com/tezos/flextesa:image-tutobox-run flextesarl mini-net --help
+docker run --rm -it tqtezos/flextesa:20200925 flextesarl mini-net --help
 ```
 
+### Try The Delphi Protocol
+
+The Docker image also contains a `delphibox` script:
+
+```shell
+docker run --rm --name my-sandbox --detach -p 20000:20000 \
+       tqtezos/flextesa:20200925 delphibox start
+```
+
+On can then check that the protocol hash is
+`PsDELPH1Kxsxt8f9eWbxQeRxkjfbxoqM52jvs5Y5fBxWWh4ifpo`:
+
+```shell
+ $ tezos-client rpc get /chains/main/blocks/head/metadata | grep protocol
+{ "protocol": "PsDELPH1Kxsxt8f9eWbxQeRxkjfbxoqM52jvs5Y5fBxWWh4ifpo",
+  "next_protocol": "PsDELPH1Kxsxt8f9eWbxQeRxkjfbxoqM52jvs5Y5fBxWWh4ifpo",
+```
+
+or that the storage burn cost has been reduced to 250 μꜩ:
+
+```shell
+ $ tezos-client rpc get /chains/main/blocks/head/context/constants | grep cost_per_byte
+  "endorsement_reward": [ "1250000", "833333" ], "cost_per_byte": "250",
+```
+
+## Further Reading
+
 For more issues or questions, see the
-[Flextesa](https://gitlab.com/tezos/flextesa) repository.
+[Flextesa](https://gitlab.com/tezos/flextesa) repository, and for even more
+advanced usage, see the
+[documentation](https://tezos.gitlab.io/flextesa/).
+
+For the differences between Carthage and Delphi see the
+[changelog](https://blog.nomadic-labs.com/delphi-changelog.html).
+
