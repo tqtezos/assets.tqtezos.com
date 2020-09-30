@@ -16,11 +16,11 @@ The contract and its formal specification are written in the [Archetype language
 For verification purposes, Archetype translates the contract to the Why3 language; [Why3](http://why3.lri.fr/) is a generic program verification platform; it generates proof obligations and calls [SMT](https://en.wikipedia.org/wiki/Satisfiability_modulo_theories) solvers to solve them.
 
 ## Generate Michelson
-The Archetype source code is available [here](https://github.com/edukera/archetype-lang/blob/0a5ad0832709ac102a14534f22d4f94cb185866d/contracts/fa12.arl).
+The Archetype source code is available [here](https://github.com/edukera/archetype-lang/blob/d9521acf95af1778dfcca13ff6f8cefd14c984ca/contracts/fa12.arl).
 
 This implementation of FA1.2 does not allow minting, that is that the `totalsupply` is the intial and final number of tokens.
 
-> SHA256 (fa12.arl) = d38260e5f55e630880ecd5d5ed32eb91988d2f34b43a7c031275d8f8a8715184
+> SHA256 (fa12.arl) = 6d58f8cccf67802b426f1e72a7171ab63a6c9e1933549ff131dac53f3689e47a
 
 The following command generates the Michelson version of the contract in the `fa12.tz` file:
 ```
@@ -120,7 +120,7 @@ entry %transfer (%from : address, %to : address, value : nat) {
 let some before_ledger_from = before.ledger[%from] in
 let some after_ledger_from  = ledger[%from] in
   after_ledger_from = { before_ledger_from with
-    tokens = (before_ledger_from.tokens - value)
+    tokens = abs(before_ledger_from.tokens - value)
   }
 otherwise false
 otherwise false
@@ -210,7 +210,7 @@ let some before_from_caller = before.allowance[(%from,caller)] in
 let some after_from_caller = allowance[(%from,caller)] in
   before_from_caller.amount > value ->
   after_from_caller = { before_from_caller with
-    amount = (before_from_caller.amount - value)
+    amount = abs(before_from_caller.amount - value)
   }
 otherwise false
 otherwise true
@@ -316,7 +316,7 @@ Right-click on the `Fa12` module in the left-hand panel, and select `Auto level 
 
 |  Software | Version  |
 |---|---|
-| Archetype  |  1.2.0 |
+| Archetype  |  1.2.1 |
 | Why3  | 1.3.3  |
 | Why3-ide  | 1.3.3  |
 | Alt-Ergo | 2.3.1 |
