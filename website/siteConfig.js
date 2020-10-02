@@ -8,6 +8,8 @@
 // See https://docusaurus.io/docs/site-config for all the possible
 // site configuration options.
 
+const archetype = require('./languages/archetype')
+
 // List of projects/orgs using your project for the users page.
 const users = [
   // {
@@ -81,6 +83,9 @@ const siteConfig = {
       // "magula",
       // "foundation",
     defaultLang: 'shell',
+    hljs: function(hljs) {
+      hljs.registerLanguage('archetype', archetype.getdef);
+    }
   },
 
   gaTrackingId: "UA-134070504-2",
