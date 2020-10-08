@@ -1,10 +1,7 @@
 {
   "docs": {
     "Digital Assets on Tezos": ["intro"],
-    "Setup": [
-      "setup/1-tezos-client",
-      "setup/2-sandbox"
-    ],
+    "Setup": ["setup/1-tezos-client", "setup/2-sandbox"],
     "Token Contracts": [
       {
         "type": "subcategory",
@@ -20,12 +17,13 @@
         "type": "subcategory",
         "label": "FA2",
         "ids": [
-          "token-contracts/fa2/1-fa2-smartpy"
+          "token-contracts/fa2/1-fa2-smartpy",
+          "token-contracts/fa2/2-fa2-nft-tutorial"
         ]
       },
       {
         "type": "subcategory",
-        "label":"Specialized Multisig",
+        "label": "Specialized Multisig",
         "ids": [
           "token-contracts/multisig-specialized/1-multisig-specialized-intro",
           "token-contracts/multisig-specialized/2-originate-and-use-multisig-contract"
@@ -33,7 +31,7 @@
       },
       {
         "type": "subcategory",
-        "label":"Transferlist",
+        "label": "Transferlist",
         "ids": [
           "token-contracts/transferlist/1-transferlist-intro",
           "token-contracts/transferlist/2-originate-and-use-transferlist-contract"
