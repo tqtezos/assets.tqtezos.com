@@ -38,7 +38,7 @@ for examples using [Taquito](https://github.com/ecadlabs/taquito).
 
 The [AdminLambda](https://github.com/tqtezos/admin-lambda) contract
 accepts a `lambda` from the `SENDER` in its storage and executes it.
-That lambda may update the allowed-`SENDER` `address` in storage.
+That lambda may update the administrator `address` in storage.
 
 In other words, it's a modification of the
 [Generic Multisig](https://github.com/murbard/smart-contracts/blob/master/multisig/michelson/generic.tz)
