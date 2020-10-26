@@ -6,6 +6,36 @@ sidebar_label: AdminLambda Quick Start
 
 ## Introduction
 
+Additional on-chain identities are convenient, e.g. to designate separate
+_checking_ and _savings_ accounts for
+[FA2](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md)
+tokens.
+
+Since contracts identify users with
+[`CHECK_SIGNATURE`](https://michelson.nomadic-labs.com/#instr-CHECK_SIGNATURE)
+and [`SENDER`](https://michelson.nomadic-labs.com/#instr-SENDER)
+checks, a common way to manage multiple on-chain identites is with multiple
+private keys. These keys can represent `tzN` accounts or be signers for a `KT1`
+contract that executes approved transactions, e.g. a
+[Generic Multisig contract](https://github.com/murbard/smart-contracts/blob/master/multisig/michelson/generic.tz).
+
+This makes sense when a high level of security is required, but managing
+multiple private keys is inconvenient: it's like having different logins for
+checking and savings.
+
+The [AdminLambda](https://github.com/tqtezos/admin-lambda) contract
+is a convenient alternative that executes approved transactions without
+requiring additional private keys or on-chain signatures.
+
+
+### Using Taquito
+
+See the [taquito readme](https://github.com/tqtezos/admin-lambda/tree/012f6a0b3515bcdb223ee109478e6146a26f09cc/taquito)
+in the [admin-lambda repo](https://github.com/tqtezos/admin-lambda)
+for examples using [Taquito](https://github.com/ecadlabs/taquito).
+
+## AdminLambda Contract
+
 The [AdminLambda](https://github.com/tqtezos/admin-lambda) contract
 accepts a `lambda` from the `SENDER` in its storage and executes it.
 That lambda may update the allowed-`SENDER` `address` in storage.
@@ -17,14 +47,6 @@ contract:
 - Only one administrator (so the `threshold = 1`)
 - The signature check is replaced with a `SENDER` check
 - The `change_keys` and `operation` entrypoints are combined
-
-### Using Taquito
-
-See the [taquito readme](https://github.com/tqtezos/admin-lambda/tree/012f6a0b3515bcdb223ee109478e6146a26f09cc/taquito)
-in the [admin-lambda repo](https://github.com/tqtezos/admin-lambda)
-for examples using [Taquito](https://github.com/ecadlabs/taquito).
-
-## AdminLambda Contract
 
 ```haskell
 parameter (lambda address (pair (list operation) address)) ;
@@ -122,9 +144,30 @@ Make a `bash` variable for it:
 ADMIN_LAMBDA='KT1JPmnRk2v9y9MEyCwges5is2reucDFgM7n'
 ```
 
+
+## Emulating FA2 allowances
+
+Suppose Bob wants to allow Fred to spend up to `N`
+[FA2](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md)
+tokens on his behalf. For example, Fred could represent an exchange that
+executes atomic swaps.
+
+With [FA1.2](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-7/tzip-7.md),
+Bob could call the `approve` entrypoint to make an allowance, but in lieu of
+allowance `FA2` specifies
+[Operators](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md#operators).
+
+An _operator_ is a Tezos address that's allowed to originate _arbitrary_ token
+transfers on behalf of the owner.
+
+Bob can allow Fred to spend at most `N` of his `FA2` tokens by:
+1. Transferring `N` `FA2` tokens to an `AdminLambda` contract
+2. Making Bob the `FA2` operator of the `AdminLambda` contract
+
+
 ### Originate a `FA2`
 
-See the [`FA2` SmartPy Tutorial](https://assets.tqtezos.com/docs/token-contracts/fa2/1-fa2-smartpy/)
+See the [`FA2` SmartPy Tutorial](/docs/token-contracts/fa2/1-fa2-smartpy/)
 for more detail.
 
 Fetch the contract:
@@ -272,9 +315,11 @@ Fatal error:
   transfer simulation failed
 ```
 
-Bob needs to set his `AdminLambda` contract's operator to Fred.
 
-We'll need a `lambda` with the following type:
+Bob makes Fred an [FA2 operator](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md#operators)
+of his `AdminLambda` contract, allowing Fred to transfer the `5 TK0` tokens held by it.
+
+We'll need a `lambda` with the following type to send to the `AdminLambda` contract:
 
 ```haskell
 lambda address (pair [operation] address)
@@ -284,7 +329,9 @@ The following `lambda`:
 - Pushes the `FA2`'s address onto the stack and ensures it has the appropriate
   `update_operators` entrypoint
 - Specifies that no Tez are transferred
-- Sets the `AdminLambda`'s operator to Fred
+- Sets the `AdminLambda`'s operator to Fred by:
+  * Pushing the `update_operators` paramter onto the stack
+  * Running `TRANSFER_TOKENS` to submit the parameter to the `$FA2_ADDRESS`
 
 ```haskell
 lambda address (pair [operation] address)
