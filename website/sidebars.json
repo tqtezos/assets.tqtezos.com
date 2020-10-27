@@ -36,6 +36,13 @@
           "token-contracts/transferlist/1-transferlist-intro",
           "token-contracts/transferlist/2-originate-and-use-transferlist-contract"
         ]
+      },
+      {
+        "type": "subcategory",
+        "label": "AdminLambda",
+        "ids": [
+          "token-contracts/admin-lambda"
+        ]
       }
     ],
     "Oracle": ["oracle"],
