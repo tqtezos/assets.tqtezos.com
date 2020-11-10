@@ -44,7 +44,7 @@ class Footer extends React.Component {
         { href: "/", text: "Assets" },
         { href: "https://tqtezos.com/events", text: "Events" },
         { href: "https://medium.com/tqtezos", text: "Blog" },
-        { href: "https://jobs.lever.co/tqgroup", text: "Jobs" },
+        { href: "https://tqtezos.com/jobs", text: "Jobs" },
         { href: "https://tqtezos.com/contact", text: "Contact" },
       ].map(this.link)}
       <li key="social" className="social">
