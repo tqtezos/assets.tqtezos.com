@@ -40,6 +40,11 @@ $ echo 'export PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc
 $ source $HOME/.bashrc
 ```
 
+> Note if the `Error` message `Cannot find zcash params in any of... ` appears
+> please download and run [fetch-params](https://raw.githubusercontent.com/zcash/zcash/master/zcutil/fetch-params.sh).
+> This script downloads zcash-params to $HOME/.zcash-params.
+
+
 #### Option 2:  Using packages on Ubuntu or Fedora
 For more ways to install on Linux see [tezos-packaging
 project](https://github.com/serokell/tezos-packaging)
