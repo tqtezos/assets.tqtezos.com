@@ -24,7 +24,7 @@ Start the sandbox *in the background* (will run with baking enabled):
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       tqtezos/flextesa:20200925 carthagebox start
+       tqtezos/flextesa:20201214 delphibox start
 ```
 
 After a few seconds this should succeed:
@@ -44,7 +44,7 @@ Then, instead of using a public faucet one can just use ꜩ by importing account
 already existing in the sandbox. They are visible with:
 
 ```
- $ docker run --rm tqtezos/flextesa:20200925 carthagebox info
+ $ docker run --rm tqtezos/flextesa:20201214 delphibox info
 
 Usable accounts:
 
@@ -113,52 +113,51 @@ example below:
 
 ```shell
 docker run --rm --name my-sandbox -e block_time=2 --detach -p 20000:20000 \
-       tqtezos/flextesa:20200925 carthagebox start
+       tqtezos/flextesa:20201214 delphibox start
 ```
 
-The above command runs a full sandbox with the Carthage protocol and a faster
+The above command runs a full sandbox with the Delphi protocol and a faster
 time-between-blocks of 2 seconds.
 
-Many other parameters are set by the `carthagebox`
+Many other parameters are set by the `delphibox`
 [script](https://gitlab.com/tezos/flextesa/-/blob/master/src/scripts/tutorial-box.sh).
 All the configuration options available can be seen with the command:
 
 ```bash
-docker run --rm -it tqtezos/flextesa:20200925 flextesarl mini-net --help
+docker run --rm -it tqtezos/flextesa:20201214 flextesarl mini-net --help
 ```
 
-### Try The Delphi Protocol
+### Try The Edo Protocol
 
-The Docker image also contains a `delphibox` script:
+The Docker image also contains a `edobox` script:
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       tqtezos/flextesa:20200925 delphibox start
+       tqtezos/flextesa:20201214 edobox start
 ```
 
 On can then check that the protocol hash is
-`PsDELPH1Kxsxt8f9eWbxQeRxkjfbxoqM52jvs5Y5fBxWWh4ifpo`:
+`PtEdoTezd3RHSC31mpxxo1npxFjoWWcFgQtxapi51Z8TLu6v6Uq`:
 
 ```shell
  $ tezos-client rpc get /chains/main/blocks/head/metadata | grep protocol
-{ "protocol": "PsDELPH1Kxsxt8f9eWbxQeRxkjfbxoqM52jvs5Y5fBxWWh4ifpo",
-  "next_protocol": "PsDELPH1Kxsxt8f9eWbxQeRxkjfbxoqM52jvs5Y5fBxWWh4ifpo",
+{ "protocol": "PtEdoTezd3RHSC31mpxxo1npxFjoWWcFgQtxapi51Z8TLu6v6Uq",
+  "next_protocol": "PtEdoTezd3RHSC31mpxxo1npxFjoWWcFgQtxapi51Z8TLu6v6Uq",
 ```
 
-or that the storage burn cost has been reduced to 250 μꜩ:
+or that the new RPCs for voting periods are present:
 
 ```shell
- $ tezos-client rpc get /chains/main/blocks/head/context/constants | grep cost_per_byte
-  "endorsement_reward": [ "1250000", "833333" ], "cost_per_byte": "250",
+ $ tezos-client rpc get /chains/main/blocks/head/votes/successor_period
+{ "voting_period": { "index": 1, "kind": "proposal", "start_position": 16 },
+  "position": 0, "remaining": 15 }
 ```
 
 ## Further Reading
 
 For more issues or questions, see the
 [Flextesa](https://gitlab.com/tezos/flextesa) repository, and for even more
-advanced usage, see the
-[documentation](https://tezos.gitlab.io/flextesa/).
-
-For the differences between Carthage and Delphi see the
-[changelog](https://blog.nomadic-labs.com/delphi-changelog.html).
+advanced usage, see the [documentation](https://tezos.gitlab.io/flextesa/)
+(esp. for the
+[`mini-net` command](https://tezos.gitlab.io/flextesa/mini-net.html)).
 
