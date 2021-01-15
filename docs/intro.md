@@ -21,7 +21,3 @@ Check out this tutorial on [how to use an oracle](/docs/oracle) on Tezos. An ora
 
 ## Running a Public Tezos Node
 Get started with [deploying a public Tezos node on AWS](/docs/run-a-node/1-run-a-node-intro), including scripts and tools that make the cloud deployment straightforward.
-
-## Upcoming
-
-Check out the FA2 ([TZIP-12](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md)) multi-asset interface proposal and read about [the motivations](https://medium.com/@TQTezos/introducing-fa2-a-multi-asset-interface-for-tezos-55173d505e5f) behind it.
