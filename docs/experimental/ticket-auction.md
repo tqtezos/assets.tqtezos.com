@@ -31,12 +31,26 @@ Every NFT created with the wallet also includes some token metadata, following t
 
 #### Alice
 
-Alice originates her nft-wallet contract and initializes herself as the admin, the wallet to have no tickets, the ticket_id that will be incremented after every NFT is minted to be 0, and no ticket metadata yet as the wallet does not contain tickets.
+Alice originates her `nft-wallet` contract and initializes several storage parameters.
+
+```sh
+Pair
+  $ALICE_ADDRESS      -- Alice sets herself as the `admin`
+  (Pair
+    {}                -- Empty `tickets` big_map as the wallet has no NFTs yet
+    (Pair
+      0               -- Current token id `current_id` set to 0 as no NFTs have been minted yet
+      {}              -- Empty `token_metadata` big_map as no NFTs have been minted yet
+    )
+  )
+```
+
+To originate the contract, run:
 
 ```sh
 $ tezos-client originate contract nft-wallet transferring 0 from alice \
        running "$(pwd)/michelson/nft_wallet.tz" \
-        --init "Pair \"tz1LrQB9HrJcUaD9NKEvV65tnaiU8trPXwmt\" (Pair {} (Pair 0 {}))" \
+        --init "Pair $ALICE_ADDRESS (Pair {} (Pair 0 {}))" \
         --burn-cap 0.305
 
         { parameter
@@ -60,6 +74,10 @@ $ tezos-client originate contract nft-wallet transferring 0 from alice \
 New contract KT1EAMUQC1yJ2sRPNPpLHVMGCzroYGe1C1ea originated.
 
 ```
+
+Note we only include relevant terminal output.
+
+
 #### Bob
 
 Bob originates his nft wallet and sets himself as the admin
@@ -67,32 +85,53 @@ Bob originates his nft wallet and sets himself as the admin
 ```sh
 $ tezos-client originate contract nft-wallet-bob transferring 0 from bob \
         running "$(pwd)/michelson/nft_wallet.tz" \
-         --init "Pair \"tz1bwfmSYqrhUTAoybGdhWBBefsbuhNdcC2Y\" (Pair {} (Pair 0 {}))" \
+         --init "Pair $BOB_ADDRESS (Pair {} (Pair 0 {}))" \
          --burn-cap 1
 
 New contract KT1QQukCBULzFu6samB5FpbLNBXmNzArSpTs originated.
 
 ```
+Make a variable for the new contract address:
+
+```shell
+$ ALICE_WALLET_ADDRESS=KT1EAMUQC1yJ2sRPNPpLHVMGCzroYGe1C1ea
+$ BOB_WALLET_ADDRESS=KT1QQukCBULzFu6samB5FpbLNBXmNzArSpTs
+```
+
 ## NFT Auction Contract
 
-A separate NFT auction contract can be used to auction off ones NFTs to prospective buyers. We use a Dutch, descending price auction, in which the asking price of the NFT is decreased until a buyer is found. The NFT auction contract has an entrypoint to `configure` the auction by customizing
-- the `opening_price`
-- the `reserve_price`-- the minimum price the NFT can be reduced to
-- the minimum `start_time` of the auction
-- the `round_time`-- the minimum time the item stays at the same price before its asking price can be decreased.
-- the `ticket`-- the actual NFT that will be auctioned off  
+A separate NFT auction contract can be used to auction off ones NFTs to prospective buyers. We use a [Dutch](https://en.wikipedia.org/wiki/Dutch_auction), descending price auction in which the asking price of the NFT is decreased until a buyer is found. The NFT auction contract has an entrypoint to `configure` the auction, `start` the auction, `drop_price` of the NFT after a round has passed, `buy` the NFT by sending the asking price, and an entrypoint for the admin to `cancel` the auction and send the NFT back to their wallet.  
 
-The auction also has entrypoints to `start` the auction, `drop_price` of the NFT after a round has passed, `buy` the NFT by sending the asking price, and an entrypoint for the admin to `cancel` the auction and send the NFT back to their wallet.  
 
 ### Auction
 
-Alice originates nft-auction contract
+Alice originates nft-auction contract and initializes several storage parameters.
+
+```sh
+"Pair
+  (Pair
+    $ALICE_ADDRESS      -- Alice set as `admin`
+    (Pair
+      0                 -- `current_price` set to 0 as there is no NFT to be auctioned yet
+      (Pair
+        0               -- `reserve_price` set to 0
+        (Pair
+          False         -- `in_progress` set to False as there is no auction in progress
+          (Pair
+            0           -- `start_time` set to 0 as default
+            0           -- `round_time` set to 0 as default
+          )
+        )
+      )
+    )
+  )
+  {}"                   -- `tickets` set to empty big_map as there are no ticket NFTs to be auctioned
+```
 
 ```sh
 $ tezos-client originate contract nft-auction transferring 0 from alice \
         running "$(pwd)/michelson/nft_auction.tz" \
-         --dry-run \
-         --init "Pair (Pair \"tz1LrQB9HrJcUaD9NKEvV65tnaiU8trPXwmt\" (Pair 0 (Pair 0 (Pair False ( Pair 0 0))))) {}" \
+         --init "Pair (Pair $ALICE_ADDRESS (Pair 0 (Pair 0 (Pair False ( Pair 0 0))))) {}" \
          --burn-cap 1
 
          { parameter
@@ -114,6 +153,13 @@ $ tezos-client originate contract nft-auction transferring 0 from alice \
 
 New contract KT1HWaMyNmjVGMBPUSm3QxJnFRLi4LQJi1tG originated.
 ```
+
+Save auction contract address in an environment variable.
+
+```sh
+AUCTION_ADDRESS=KT1HWaMyNmjVGMBPUSm3QxJnFRLi4LQJi1tG
+```
+
 ## Demo
 Now that the wallet and auction contracts are originated Alice can create an NFT and auction it off. In the auction, no one will purchase the item at Alice's `opening_price` of 100tz so she drops the price to 90tz and Bob purchases the item.
 
@@ -121,10 +167,20 @@ Now that the wallet and auction contracts are originated Alice can create an NFT
 
 Alice mints herself a ticket based nft with metadata
 
+Following [TZIP-12 Token Metadata](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md#token-metadata) we initialize the map of type `(map string bytes)`. The empty string `\"\"` key has a value of a TZIP-16 URI which points to a JSON representation of the token metadata.
+
+First, we will save the URI as a variable, and byte encode it. **Note, the URI I use just points to [this](https://github.com/tqtezos/ticket-tutorials/tree/main/tutorials/auction/ligo) repo. To actually follow TZIP-12 standard, a production level implementation should point to an actual [TZIP-16 Metadata JSON](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-16/tzip-16.md#metadata-json-format).  
+
+```sh
+$ URI=https://github.com/tqtezos/ticket-tutorials/tree/main/tutorials/auction/ligo
+# Encode the URI and format it
+$ URI=$(echo -n $URI | od -A n -t x1 | sed 's/ *//g'| tr -d '\n')
+```
+
 ```sh
 $ tezos-client transfer 0 from alice to nft-wallet
           --entrypoint "mint" \
-          --arg "{Elt \"\" 0x68747470733a2f2f6769746875622e636f6d2f747174657a6f732f7469636b65742d7475746f7269616c732f747265652f6d61696e2f7475746f7269616c732f61756374696f6e2f6c69676f}" \
+          --arg "{Elt \"\" 0x"$URI"}" \
           --burn-cap 1
 
    Transaction:
@@ -142,9 +198,28 @@ $ tezos-client transfer 0 from alice to nft-wallet
 Alice auctions off her ticket based nft through her wallet, which sends her nft to her auction contract and configures various auction settings. The starting price of the auction is 100 mutez.
 
 ```sh
+Pair
+  $AUCTION_ADDRESS%configure
+  (Pair
+    100             -- `operning_price` set to 100
+    (Pair  
+      10            -- `reserve_price` set to 10
+      (Pair
+        0           -- `start_time` set to 0 Unix time
+        (Pair
+          600       -- `round_time` set to 600 seconds (10 minutes)
+          0         -- `ticket` is chosen to be the ticket we just minted with `ticket_id` 0
+        )
+      )
+    )
+  )
+```
+Configure the auction by running:
+
+```sh
 $ tezos-client transfer 0 from alice to nft-wallet \
         --entrypoint "auction" \
-        --arg "Pair \"KT1HWaMyNmjVGMBPUSm3QxJnFRLi4LQJi1tG%configure\" (Pair 100 (Pair 10 (Pair 0 (Pair 600 0))))" \
+        --arg "Pair \"$AUCTION_ADDRESS%configure\" (Pair 100 (Pair 10 (Pair 0 (Pair 600 0))))" \
         --burn-cap 1
 
    Transaction:
@@ -222,7 +297,7 @@ Bob buys the nft by sending 90 mutez to the auction contract, calling the buy en
 ```sh
 $ tezos-client transfer 0.00009 from bob to nft-auction \
         --entrypoint "buy" \
-        --arg "\"KT1QQukCBULzFu6samB5FpbLNBXmNzArSpTs%receive\"" \
+        --arg "\"$BOB_WALLET_ADDRESS%receive\"" \
         --burn-cap 1
 
    Transaction:
