@@ -35,12 +35,12 @@ Alice originates her `nft-wallet` contract and initializes several storage param
 
 ```sh
 Pair
-  $ALICE_ADDRESS      -- Alice sets herself as the `admin`
+  $ALICE_ADDRESS      -- Alice sets herself as the admin
   (Pair
-    {}                -- Empty `tickets` big_map as the wallet has no NFTs yet
+    {}                -- Empty tickets big_map as the wallet has no NFTs yet
     (Pair
-      0               -- Current token id `current_id` set to 0 as no NFTs have been minted yet
-      {}              -- Empty `token_metadata` big_map as no NFTs have been minted yet
+      0               -- Current token id current_id set to 0 as no NFTs have been minted yet
+      {}              -- Empty token_metadata big_map as no NFTs have been minted yet
     )
   )
 ```
