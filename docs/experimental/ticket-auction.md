@@ -5,7 +5,7 @@ sidebar_label: Ticket NFT Auction in Ligo
 ---
 
 ## Introduction
-Tickets are a feature added to Tezos in the Edo protocol upgrade that allow
+Tickets are a feature added to Tezos in the Edo protocol proposal that allow
 a smart contract to authenticate data with respect to a Tezos address.
 They provide a convenient mechanism  to grant portable permissions or issue
 tokens without requiring the token holder or permission grantee to interact
