@@ -5,13 +5,23 @@ sidebar_label: Ticket NFT Auction in Ligo
 ---
 
 ## Introduction
-Tickets are a feature added to Tezos in the Edo protocol upgrade that allow a smart contract to authenticate data with respect to a Tezos address. They provide a convenient mechanism  to grant portable permissions or issue tokens without requiring the token holder or permission grantee to interact with a centralized contract.
+Tickets are a feature added to Tezos in the Edo protocol upgrade that allow
+a smart contract to authenticate data with respect to a Tezos address.
+They provide a convenient mechanism  to grant portable permissions or issue
+tokens without requiring the token holder or permission grantee to interact
+with a centralized contract.
 
-Tickets' decentralized nature make them perfectly suited for representing assets for which users are in full control of their tokens. In this tutorial, we will create a Dutch/descending-price auction of ticket-based NFTs implemented in Ligo, along with ticket wallets for auction participants.
+Tickets' decentralized nature make them perfectly suited for representing
+assets for which users are in full control of their tokens. In this tutorial,
+we will create a Dutch/descending-price auction of ticket-based NFTs
+implemented in Ligo, along with ticket wallets for auction participants.
 ## Set-up
 - Follow instructions in [Client Setup](/docs/setup/1-tezos-client) to set up
-  `tezos-client.` Also, make sure to point to a public Edo test network node such as `https://edonet-tezos.giganode.io` or to an Edo [sandbox](/docs/setup/2-sandbox#try-the-edo-protocol) and make sure to have at least 2 test accounts for Alice and Bob with funds.
-- Follow instructions on [Ligo](https://ligolang.org/docs/intro/installation) to install the most recent Ligo version.
+  `tezos-client.` Also, make sure to point to a public Edo test network node
+  such as `https://edonet-tezos.giganode.io` or to an Edo [sandbox](/docs/setup/2-sandbox#try-the-edo-protocol)
+  and make sure to have at least 2 test accounts for Alice and Bob with funds.
+- Follow instructions on [Ligo](https://ligolang.org/docs/intro/installation) to install
+  the most recent Ligo version.
 - Clone tutorial repo
 ```shell
 $ git clone https://github.com/tqtezos/ticket-tutorials.git
@@ -23,9 +33,14 @@ $ ligo compile-contract --protocol edo --disable-michelson-typechecking nft_wall
 $ ligo compile-contract --protocol edo --disable-michelson-typechecking nft_auction.mligo main > ./michelson/nft_auction.tz
 ```
 ## NFT Wallet Contract
-The first contract used in this demo is an NFT wallet that will create, destroy, send, and receive NFTs. For this demo, it will also be used to configure NFT Auctions that will be performed in our NFT Auction contract.
+The first contract used in this demo is an NFT wallet that will create,
+destroy, send, and receive NFTs. For this demo, it will also be used
+to configure NFT Auctions that will be performed in our NFT Auction contract.
 
-Every NFT created with the wallet also includes some token metadata, following the standard specified for FA2 in [TZIP-12](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md#token-metadata-values) in which token metadata is stored as a Michelson value of type `(map string bytes)`.
+Every NFT created with the wallet also includes some token metadata,
+following the standard specified for FA2 in [TZIP-12](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md#token-metadata-values)
+in which token metadata is stored as a Michelson value
+of type `(map string bytes)`.
 
 ### Originations
 
@@ -81,7 +96,7 @@ Note we only include relevant terminal output.
 
 #### Bob
 
-Bob originates his nft wallet and sets himself as the admin
+Bob originates his NFT wallet and sets himself as the admin
 
 ```sh
 $ tezos-client originate contract nft-wallet-bob transferring 0 from bob \
@@ -124,14 +139,14 @@ Alice originates nft-auction contract and initializes several storage parameters
   (Pair
     $ALICE_ADDRESS      -- Alice set as admin
     (Pair
-      0                 -- current_price set to 0 as default
+      0                 -- current_price set to 0 mutez as default
       (Pair
-        0               -- reserve_price set to 0
+        0               -- reserve_price set to 0 mutez
         (Pair
           False         -- in_progress set to False as no auction in progress
           (Pair
-            0           -- start_time set to 0 as default
-            0           -- round_time set to 0 as default
+            0           -- start_time set to 0 Unix time as default
+            0           -- round_time set to 0 seconds as default
           )
         )
       )
@@ -184,25 +199,30 @@ and Bob purchases the item.
 
 ### Mint NFT
 
-Alice mints herself a ticket based nft with metadata
+First, Alice mints herself a ticket based NFT with metadata
 
 Following [TZIP-12 Token Metadata](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md#token-metadata)
 we initialize the map of type `(map string bytes)` that contains the NFT `name`,
 and a value called `decimals` which defines the position of the decimal point
-in token balances for display purposes. We also store in the token metadata
+in token balances. Setting `decimals` to 0 [denotes](https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/Legacy-FA2.md#token-metadata)
+that the token is an NFT. We also store in the token metadata
 an IPFS hash (CID) which points to a picture of a dutch auction on [IPFS](https://ipfs.io/).
+Note, we could have also pointed to external data using
+http/https, data in other tezos contracts, etc.
 You can see more details about how to store the picture with IPFS on the
 [NFT FA2 tutorial](https://assets.tqtezos.com/docs/token-contracts/fa2/2-fa2-nft-tutorial/#tokens-with-external-metadata).
-The picture the NFT's metadata points to is visible at https://ipfs.io/ipfs/Qmb1s5K234gpBcmFFDnZBcufJpAWb8AtAhjf1fUH4z5f72.
+The picture that the NFT's metadata points to is visible at https://ipfs.io/ipfs/Qmb1s5K234gpBcmFFDnZBcufJpAWb8AtAhjf1fUH4z5f72.
 
 Define the TOKEN_METADATA we will use to mint the NFT as follows:
 ```sh
-$ NAME="Demo NFT"
-$ DECIMALS=0 #to denote NFT
-$ IPFS_CID=Qmb1s5K234gpBcmFFDnZBcufJpAWb8AtAhjf1fUH4z5f72
 # Define a function to encode the metadata values and format them
-$ tobytes () { printf 0x; cat | od -A n -t x1 | sed 's/ *//g'| tr -d '\n';}
-$ TOKEN_METADATA="{Elt "\"decimals\"" "$(printf $DECIMALS | tobytes)"; Elt "\"ipfs_cid\"" "$(printf $IPFS_CID | tobytes)"; Elt "\"name\"" "$(printf $NAME | tobytes)"}"
+$ tobytes() { echo "0x$(echo -n $1 | od -A n -t x1 | tr -d ' \n')";}
+$ TOKEN_METADATA="{\
+Elt \"decimals\" $(tobytes 0); \
+Elt \"ipfs_cid\" $(tobytes Qmb1s5K234gpBcmFFDnZBcufJpAWb8AtAhjf1fUH4z5f72); \
+Elt \"name\" $(tobytes 'Demo') \
+}"
+
 ```
 Mint the NFT by running:
 
@@ -225,17 +245,17 @@ $ tezos-client transfer 0 from alice to nft-wallet \
 
 ### Configure auction
 
-Alice auctions off her ticket based nft through her wallet,
-which sends her nft to her auction contract and configures various auction
+Alice auctions off her ticket based NFT through her wallet,
+which sends her NFT to her auction contract and configures various auction
 settings. The starting price of the auction is 100 mutez.
 
 ```sh
 Pair
   $AUCTION_ADDRESS%configure
   (Pair
-    100             -- operning_price set to 100
+    100             -- operning_price set to 100 mutez
     (Pair  
-      10            -- reserve_price set to 10
+      10            -- reserve_price set to 10 mutez
       (Pair
         0           -- start_time set to 0 Unix time
         (Pair
@@ -313,7 +333,7 @@ $ tezos-client transfer 0 from alice to nft-auction \
 ### Drop ask price
 
 After the time of one round has passed without anyone buying the nft,
-Alice drops the price of her nft to 90 mutez.
+Alice drops the price of her NFT to 90 mutez.
 
 ```sh
 $ tezos-client transfer 0 from alice to nft-auction \
@@ -339,9 +359,9 @@ $ tezos-client transfer 0 from alice to nft-auction \
 
 ### Purchase NFT
 
-Bob buys the nft by sending 90 mutez to the auction contract,
+Bob buys the NFT by sending 90 mutez to the auction contract,
 calling the buy entrypoint, and sending the address of his wallet contract.
-The nft is sent to Bob’s wallet and Alice is sent the 90 mutez.
+The NFT is sent to Bob’s wallet and Alice is sent the 90 mutez.
 
 ```sh
 $ tezos-client transfer 0.00009 from bob to nft-auction \
@@ -400,3 +420,57 @@ in Bob's `tickets` big_map, which can be viewed at Bigmap 142 in
 on edonet. The metadata for the NFT is visible in key 1 in
 [Alice's wallet](https://edo.tzstats.com/KT1EAMUQC1yJ2sRPNPpLHVMGCzroYGe1C1ea)
 in the `token_metadata` big_map (Bigmap 141).
+
+We can also use the CLI to inspect the big maps.
+Since both values will be found at key 1 in their respective big maps
+we can run the following command to get the hashed common key
+that we use to inspect the two big maps.  
+
+```sh
+$ tezos-client hash data 1 of type nat
+
+Raw packed data: 0x050001
+Script-expression-ID-Hash: expru2dKqDfZG8hu4wNGkiyunvq2hdSKuVYtcKta7BWP6Q18oNxKjS
+Raw Script-expression-ID-Hash: 0x438c52065d4605460b12d1b9446876a1c922b416103a20d44e994a9fd2b8ed07
+Ledger Blake2b hash: 5YgR7rjfSbSbzGEYhhBG9ENRHhdVSUu2TJ6RyNLawjiv
+Raw Sha256 hash: 0x57072915640d052f4e2843e1498b10c4f71b62df565525d33c4a66a724e3e20a
+Raw Sha512 hash: 0x112e6b61a60ecf001d501f39284ff8a575d818f2f79295b90b24f045d165a490c19cac2add9149dbdd23a8f2cf956dbee0efe17449111e6326e97ab21532f445
+Gas remaining: 1039991.350 units remaining
+```
+
+We copy the value given at `Script-expression-ID-Hash` and can use it as follows.
+
+First we look at the ticket-NFT in Bob's wallet:
+```sh
+$ tezos-client get element expru2dKqDfZG8hu4wNGkiyunvq2hdSKuVYtcKta7BWP6Q18oNxKjS of big map 142
+
+Pair "KT1EAMUQC1yJ2sRPNPpLHVMGCzroYGe1C1ea" 1 1
+```
+
+Next, we look at the NFT metadata in Alice's wallet:  
+```sh
+$ tezos-client get element expru2dKqDfZG8hu4wNGkiyunvq2hdSKuVYtcKta7BWP6Q18oNxKjS of big map 141
+Warning:
+
+Pair 1
+     { Elt "decimals" 0x30 ;
+       Elt "ipfs_cid"
+           0x516d623173354b323334677042636d4646446e5a426375664a7041576238417441686a6631665548347a35663732 ;
+       Elt "name" 0x44656d6f }
+```
+
+Finally, we can inspect the encoded values in the metadata as follows:
+
+```sh
+# Define a function to convert the bytes back to
+$ ofbytes () { echo -n $1 | while read -n2 byte; do case "$byte" in 0x ) ;; * )  printf "\x$byte" ;; esac ; done ; echo ; }
+# Get the "decimals" value
+$ ofbytes 0x30
+  0
+# Get the "ipfs_cid" value
+$ ofbytes 0x516d623173354b323334677042636d4646446e5a426375664a7041576238417441686a6631665548347a35663732
+  Qmb1s5K234gpBcmFFDnZBcufJpAWb8AtAhjf1fUH4z5f72
+# Get the "name" value
+$ ofbytes 0x44656d6f
+  Demo
+```
