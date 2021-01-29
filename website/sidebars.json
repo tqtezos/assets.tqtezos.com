@@ -46,6 +46,7 @@
       }
     ],
     "Oracle": ["oracle"],
+    "Experimental": ["experimental/ticket-auction"],
     "Run a Public Node with AWS Cloud": [
       "run-a-node/1-run-a-node-intro",
       "run-a-node/2-deploy-vpc-cf",
