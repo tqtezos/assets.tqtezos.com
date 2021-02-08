@@ -25,7 +25,7 @@ tokens, to pay for the gas costs associated with calling the Smart Contract. Gas
 costs get paid using Tezos tokens, not the tokens represented within our soon to
 be created asset contract.
 
-To get a new Tezos testnet account with some tokenst, visit the Faucet website:
+To get a new Tezos testnet account with some tokens, visit the Faucet website:
 [faucet.tzalpha.net][3] and click the "Get ꜩ" button.
 
 Save the faucet file to your computer and name it `faucet.json`. In the
