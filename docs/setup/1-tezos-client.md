@@ -16,9 +16,12 @@ interface to Tezos.
 With [Homebrew](https://brew.sh):
 
 ```shell
-$ brew tap tqtezos/homebrew-tq https://github.com/tqtezos/homebrew-tq.git
-$ brew install tezos
+$ brew tap serokell/tezos-packaging https://github.com/serokell/tezos-packaging.git
+$ brew install tezos-client
 ```
+
+`tezos-packaging` provides prebuilt brew bottles for some of the macOS versions
+(Mojave and Catalina at the moment).
 
 ### Linux (64-bit)
 
