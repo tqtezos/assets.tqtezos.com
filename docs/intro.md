@@ -14,7 +14,7 @@ Get started with the [Tezos CLI](/docs/setup/1-tezos-client) and a local [Tezos 
 
 ## Token Contracts
 
-This section outlines smart contract specifications for tokens (digital assets) and demonstrates interactions with smart contracts implementing them. The focus is now on [FA1.2](/docs/token-contracts/fa12/1-fa12-intro) and a [Multisig contract](/docs/token-contracts/multisig-specialized/1-multisig-specialized-intro), and [FA2](https://medium.com/@TQTezos/introducing-fa2-a-multi-asset-interface-for-tezos-55173d505e5f) will be added in the future.
+This section outlines smart contract specifications for tokens (digital assets) and demonstrates interactions with smart contracts implementing them. Key contracts include: [FA1.2](/docs/token-contracts/fa12/1-fa12-intro), [Multisig](/docs/token-contracts/multisig-specialized/1-multisig-specialized-intro), and [FA2](https://medium.com/@TQTezos/introducing-fa2-a-multi-asset-interface-for-tezos-55173d505e5f).
 
 ## Oracle
 Check out this tutorial on [how to use an oracle](/docs/oracle) on Tezos. An oracle is a service that makes real-world data available on-chain, so smart contracts can interact with it.
