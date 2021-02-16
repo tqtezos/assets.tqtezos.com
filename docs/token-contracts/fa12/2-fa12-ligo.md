@@ -18,14 +18,14 @@ contract to a Tezos test network.
 
 When we originate the contract, we need to "initialize" the smart contracts
 storage with initial values. The two values we are interested in are the number
-of tokens and the address that will own the supply.
+of tokens and the address that will own the initial supply.
 
 Before we originate the contract, we need a Tezos address, along with some Tezos
 tokens, to pay for the gas costs associated with calling the Smart Contract. Gas
 costs get paid using Tezos tokens, not the tokens represented within our soon to
 be created asset contract.
 
-To get a new address on a testnet, visit the Faucet website:
+To get a new Tezos testnet account with some tokens, visit the Faucet website:
 [faucet.tzalpha.net][3] and click the "Get ꜩ" button.
 
 Save the faucet file to your computer and name it `faucet.json`. In the
@@ -40,10 +40,11 @@ tutorial short, we shall use the [LIGO web-ide][] to deploy a new contract to a
 Tezos testnet.
 
 > * Taquito documentation for originating contracts can be found [here][5]
-> * The LIGO web ide uses Taquito under-the-covers, you can check out its source
-> code [here][4]
 > * An example of originating the FA1.2 contract (and more!) using Taquito
 > [here][1]
+> * A [PascaLIGO implementation][] of the FA1.2 specification
+> * A [CameLIGO implementation][] of the FA1.2 specification
+> * A [ReasonLIGO implementation][] of the FA1.2 specification
 
 To deploy your asset contract;
 
@@ -95,7 +96,7 @@ discouraged. Use a real wallet or HSM backed remote signer for production.
 const fs = require("fs");
 const { email, password, mnemonic, secret } = JSON.parse(fs.readFileSync('./faucet.json').toString())
 
-Tezos.setProvider({ rpc: 'https://api.tez.ie/rpc/carthagenet' })
+Tezos.setProvider({ rpc: 'https://api.tez.ie/rpc/delphinet' })
 Tezos.importKey(email, password, mnemonic.join(" "), secret)
 ```
 
@@ -144,9 +145,11 @@ Tezos smart contract.
 [1]: https://github.com/ecadlabs/token-contract-example/blob/master/deploy.js
 [2]: https://ide.ligolang.org/p/o1zxph53rKkwMdO8OFNCzA
 [3]: https://faucet.tzalpha.net/
-[4]: https://gitlab.com/ligolang/ligo-web-ide
 [5]: https://tezostaquito.io/docs/originate
 [PascaLIGO]: https://ligolang.org/
 [LIGO]: https://ligolang.org/
 [LIGO web-ide]: https://ide.ligolang.org/
 [TypeScript]: https://www.typescriptlang.org/
+[PascaLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.ligo
+[CameLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.mligo
+[ReasonLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.religo
