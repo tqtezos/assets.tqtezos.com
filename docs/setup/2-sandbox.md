@@ -24,27 +24,27 @@ Start the sandbox *in the background* (will run with baking enabled):
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       tqtezos/flextesa:20201214 delphibox start
+       tqtezos/flextesa:20210216 edobox start
 ```
 
 After a few seconds this should succeed:
 
 ```shell
 tezos-client config reset        # Cleans-up left-over configuration.
-tezos-client -A localhost -P 20000 bootstrapped
+tezos-client --endpoint http://localhost:20000 bootstrapped
 ```
 
 Configure the client to communicate with the sandbox:
 
 ```shell
-tezos-client -A localhost -P 20000 config update
+tezos-client --endpoint http://localhost:20000 config update
 ```
 
 Then, instead of using a public faucet one can just use ꜩ by importing accounts
 already existing in the sandbox. They are visible with:
 
 ```
- $ docker run --rm tqtezos/flextesa:20201214 delphibox info
+ $ docker run --rm tqtezos/flextesa:20210216 edobox info
 
 Usable accounts:
 
@@ -113,21 +113,21 @@ example below:
 
 ```shell
 docker run --rm --name my-sandbox -e block_time=2 --detach -p 20000:20000 \
-       tqtezos/flextesa:20201214 delphibox start
+       tqtezos/flextesa:20210216 edobox start
 ```
 
-The above command runs a full sandbox with the Delphi protocol and a faster
+The above command runs a full sandbox with the Edo protocol and a faster
 time-between-blocks of 2 seconds.
 
-Many other parameters are set by the `delphibox`
+Many other parameters are set by the `edobox`
 [script](https://gitlab.com/tezos/flextesa/-/blob/master/src/scripts/tutorial-box.sh).
 All the configuration options available can be seen with the command:
 
 ```bash
-docker run --rm -it tqtezos/flextesa:20201214 flextesarl mini-net --help
+docker run --rm -it tqtezos/flextesa:20210216 flextesarl mini-net --help
 ```
 
-### Try The Edo Protocol
+<!-- ### Try The Edo Protocol
 
 The Docker image also contains a `edobox` script:
 
@@ -152,6 +152,7 @@ or that the new RPCs for voting periods are present:
 { "voting_period": { "index": 1, "kind": "proposal", "start_position": 16 },
   "position": 0, "remaining": 15 }
 ```
+-->
 
 ## Further Reading
 
