@@ -20,8 +20,7 @@ $ brew tap serokell/tezos-packaging https://github.com/serokell/tezos-packaging.
 $ brew install tezos-client
 ```
 
-`tezos-packaging` provides prebuilt brew bottles for some of the macOS versions
-(Mojave and Catalina at the moment).
+`tezos-packaging` also provides prebuilt brew bottles for some macOS versions.
 
 ### Linux (64-bit)
 
