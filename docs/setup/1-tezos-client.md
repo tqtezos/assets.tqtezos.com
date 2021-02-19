@@ -54,17 +54,17 @@ LTS) and follow instructions for Linux.
 
 ## Configure
 
-We'll configure `tezos-client` to use a public test network Tezos node. We do
-that by specifying the address of the server with the `-A` option followed by
-the server address. -S enables TLS encryption to the server, and -P specifies
-the port, 443.  The final part of the command, `config update` will update the
-configuration saved in $HOME/.tezos-client/config with the settings we've just
-specified.
+We'll configure `tezos-client` to use a public test network Tezos node:
 
 
 ```shell
-$ tezos-client -E https://rpcalpha.tzbeta.net:443 config update
+$ tezos-client --endpoint https://rpcalpha.tzbeta.net config update
 ```
+
+`--endpoint` parameter specifies the address of the server,
+`config update` writes it to `tezos-client`'s configuration filed at
+`$HOME/.tezos-client/config`.
+
 [//]: # ( TODO: In the interests of keeping things simple, I'd suggest leaving
 the following option out at this early stage. - IAN )
 
