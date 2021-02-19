@@ -63,7 +63,7 @@ specified.
 
 
 ```shell
-$ tezos-client -A rpcalpha.tzbeta.net -S -P 443 config update
+$ tezos-client -E https://rpcalpha.tzbeta.net:443 config update
 ```
 [//]: # ( TODO: In the interests of keeping things simple, I'd suggest leaving
 the following option out at this early stage. - IAN )
@@ -79,13 +79,10 @@ network:
 ```
 $ tezos-client
 Warning:
-
+  
                  This is NOT the Tezos Mainnet.
-
-     The node you are connecting to claims to be running on the
-               Tezos Alphanet DEVELOPMENT NETWORK.
-          Do NOT use your fundraiser keys on this network.
-         Alphanet is a testing network, with free tokens.
+  
+           Do NOT use your fundraiser keys on this network.
 
 Usage:
   tezos-client [global options] command [command options]
@@ -105,14 +102,14 @@ Global options (must come before the command):
   -w --wait <none|<int>>: how many confirmation blocks before to consider an operation as included
   -p --protocol <hash>: use commands of a specific protocol
   -l --log-requests: log all requests to the node
-  -A --addr <IP addr|host>: IP address of the node
-  -P --port <number>: RPC port of the node
-  -S --tls: use TLS to connect to node.
+  -A --addr <IP addr|host>: [DEPRECATED: use --endpoint instead] IP address of the node
+  -P --port <number>: [DEPRECATED: use --endpoint instead] RPC port of the node
+  -S --tls: [DEPRECATED: use --endpoint instead] use TLS to connect to node.
+  -E --endpoint <uri>: HTTP(S) endpoint of the node RPC interface; e.g. 'http://localhost:8732'
   -R --remote-signer <uri>: URI of the remote signer
   -f --password-filename <filename>: path to the password filename
   -M --mode <client|mockup>: how to interact with the node
-
-```
+  ```
 
 Now that we know we are on a test network we can temporarily disable this
 warning so that we don't see it with each command.
