@@ -79,9 +79,9 @@ network:
 ```
 $ tezos-client
 Warning:
-  
+
                  This is NOT the Tezos Mainnet.
-  
+
            Do NOT use your fundraiser keys on this network.
 
 Usage:
@@ -125,7 +125,7 @@ $ export TEZOS_CLIENT_UNSAFE_DISABLE_DISCLAIMER=yes
 - Go to the [faucet](https://faucet.tzalpha.net/).
 - Complete the captcha and download the wallet in the form of a .json file.
 - The file name is the wallet address (also known as the public key hash, or
-  PKH) with a .json extension.  
+  PKH) with a .json extension.
 - If you look inside the file you will see a property called pkh which contains the address.
 - The public key hash is used to identify the account on the Tezos block chain
   and can be though of as an address or account number.
@@ -142,7 +142,7 @@ Operation successfully injected in the node.
 Operation hash is 'oog2gMSBNWWTgHujoKViJaCed4wq27gPnLpHKQ27C5savX9ewAq'
 Waiting for the operation to be included...
 Error:
-  
+
 ```
 
 > Note empty `Error:` message at the end of the output. `tezos-client` attempts
@@ -173,7 +173,5 @@ the next section.
 ```shell
 $ tezos-client activate account bob with tz1ZQYMDETodNBAc2XVbhZFGme8KniuPqrSw.json
 $ BOB_ADDRESS="tz1ZQYMDETodNBAc2XVbhZFGme8KniuPqrSw"
-$ tezos-client get balance for $BOB_ADDRESS 
+$ tezos-client get balance for $BOB_ADDRESS
 ```
-
-
