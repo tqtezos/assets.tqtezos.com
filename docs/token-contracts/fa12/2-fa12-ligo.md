@@ -39,12 +39,12 @@ You can use Taquito to originate a contract if you wish to do so. To keep this
 tutorial short, we shall use the [LIGO web-ide][] to deploy a new contract to a
 Tezos testnet.
 
-> * Taquito documentation for originating contracts can be found [here][5]
-> * An example of originating the FA1.2 contract (and more!) using Taquito
-> [here][1]
-> * A [PascaLIGO implementation][] of the FA1.2 specification
-> * A [CameLIGO implementation][] of the FA1.2 specification
-> * A [ReasonLIGO implementation][] of the FA1.2 specification
+> - Taquito documentation for originating contracts can be found [here][5]
+> - An example of originating the FA1.2 contract (and more!) using Taquito
+>   [here][1]
+> - A [PascaLIGO implementation][] of the FA1.2 specification
+> - A [CameLIGO implementation][] of the FA1.2 specification
+> - A [ReasonLIGO implementation][] of the FA1.2 specification
 
 To deploy your asset contract;
 
@@ -53,10 +53,10 @@ To deploy your asset contract;
 1. Choose the "Deploy" action under the "Configure" pick-list.
 1. In the "Storage" field, you shall see the initial data for this Smart
    Contract. You must update two items:
-       * Replace `YOUR_TZ_ADDRESS` with the address you copied from your faucet
-     file earlier
-       * Replace *both* occurrences of `TOKENS` with the total number of tokens
-     you wish to issue.
+   _ Replace `YOUR_TZ_ADDRESS` with the address you copied from your faucet
+   file earlier
+   _ Replace _both_ occurrences of `TOKENS` with the total number of tokens
+   you wish to issue.
 1. With the "Deploy" action selected, Click "Run". The contract deployment
    process shall begin (and may take a couple of minutes).
 1. When the deploy is complete, copy the address of the newly originated
@@ -84,7 +84,7 @@ Create a new file to contain our example, called `fa_taquito.ts`
 Import the main taquito package into your project.
 
 ```js
-const { Tezos } = require('@taquito/taquito')
+const { TezosToolkit } = require("@taquito/taquito")
 ```
 
 The following code loads and imports the private key from the `faucet.json` file
@@ -93,33 +93,38 @@ convenient for development and testing, but use in production is
 discouraged. Use a real wallet or HSM backed remote signer for production.
 
 ```js
-const fs = require("fs");
-const { email, password, mnemonic, secret } = JSON.parse(fs.readFileSync('./faucet.json').toString())
+const { InMemorySigner, importKey } = require("@taquito/signer")
+const fs = require("fs")
+const { email, password, mnemonic, secret } = JSON.parse(
+  fs.readFileSync("./faucet.json").toString()
+)
 
-Tezos.setProvider({ rpc: 'https://api.tez.ie/rpc/delphinet' })
-Tezos.importKey(email, password, mnemonic.join(" "), secret)
+const Tezos = new TezosToolkit("https://api.tez.ie/rpc/edonet")
+Tezos.setProvider({ signer: new InMemorySigner() })
+
+importKey(Tezos, email, password, mnemonic.join(" "), secret)
 ```
 
 Next, we shall query the chain for the contract we originated earlier.
 
 ```js
-await const contract = await Tezos.contract.at('KT1...your_address_from_earlier')
+const contract = await Tezos.contract.at("KT1...your_address_from_earlier")
 ```
 
 When this code executes, Taquito fetches the contract code from the chain, and
 dynamically generate methods on your contract object that correspond to the
 FA1.2 entry points. These methods are the "abstraction" that Taquito provides to
-make working with smart contracts more intuitive from a javascript perspective.
+make working with smart contracts more intuitive from a JavaScript perspective.
 
 We can now make a transfer of our asset contract tokens between your address and
 another arbitrary address.
 
 To transfer `2` tokens is as easy as calling `contract.methods.transfer()`.
-Let's set up a `src` and `dst` variable first.
+Let's set up a `pkhSrc` and `pkhDst` variable first.
 
 ```js
-const pkhSrc = await Tezos.signer.publicKeyHash())
-const pkhDst =  "tz1eY5Aqa1kXDFoiebL28emyXFoneAoVg1zh"
+const pkhSrc = await Tezos.signer.publicKeyHash()
+const pkhDst = "tz1eY5Aqa1kXDFoiebL28emyXFoneAoVg1zh"
 ```
 
 Now we will call the `transfer` method on our contract.
@@ -146,10 +151,10 @@ Tezos smart contract.
 [2]: https://ide.ligolang.org/p/o1zxph53rKkwMdO8OFNCzA
 [3]: https://faucet.tzalpha.net/
 [5]: https://tezostaquito.io/docs/originate
-[PascaLIGO]: https://ligolang.org/
-[LIGO]: https://ligolang.org/
-[LIGO web-ide]: https://ide.ligolang.org/
-[TypeScript]: https://www.typescriptlang.org/
-[PascaLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.ligo
-[CameLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.mligo
-[ReasonLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.religo
+[pascaligo]: https://ligolang.org/
+[ligo]: https://ligolang.org/
+[ligo web-ide]: https://ide.ligolang.org/
+[typescript]: https://www.typescriptlang.org/
+[pascaligo implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.ligo
+[cameligo implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.mligo
+[reasonligo implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.religo
