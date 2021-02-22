@@ -151,10 +151,10 @@ Tezos smart contract.
 [2]: https://ide.ligolang.org/p/o1zxph53rKkwMdO8OFNCzA
 [3]: https://faucet.tzalpha.net/
 [5]: https://tezostaquito.io/docs/originate
-[pascaligo]: https://ligolang.org/
-[ligo]: https://ligolang.org/
-[ligo web-ide]: https://ide.ligolang.org/
-[typescript]: https://www.typescriptlang.org/
-[pascaligo implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.ligo
-[cameligo implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.mligo
-[reasonligo implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.religo
+[PascaLIGO]: https://ligolang.org/
+[LIGO]: https://ligolang.org/
+[LIGO web-ide]: https://ide.ligolang.org/
+[TypeScript]: https://www.typescriptlang.org/
+[PascaLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.ligo
+[CameLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.mligo
+[ReasonLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.religo
