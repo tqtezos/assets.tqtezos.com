@@ -51,10 +51,13 @@ To deploy your asset contract;
 1. Choose the "Deploy" action under the "Configure" pick-list.
 1. In the "Storage" field, you shall see the initial data for this Smart
    Contract. You must update two items:
-       * Replace `YOUR_TZ_ADDRESS` with the address you copied from your faucet
-     file earlier
-       * Replace *both* occurrences of `TOKENS` with the total number of tokens
-     you wish to issue.
+
+   * Replace `YOUR_TZ_ADDRESS` with the address you copied from
+     your faucet file earlier
+
+   * Replace *both* occurrences of `TOKENS` with the total number
+     of tokens you wish to issue.
+
 1. With the "Deploy" action selected, Click "Run". The contract deployment
    process shall begin (and may take a couple of minutes).
 1. When the deploy is complete, copy the address of the newly originated
