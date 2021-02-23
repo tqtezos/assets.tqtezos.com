@@ -155,6 +155,4 @@ Tezos smart contract.
 [LIGO]: https://ligolang.org/
 [LIGO web-ide]: https://ide.ligolang.org/
 [TypeScript]: https://www.typescriptlang.org/
-[PascaLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.ligo
 [CameLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.mligo
-[ReasonLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.religo
