@@ -11,7 +11,7 @@ FA1.2 contract written in [PascaLIGO][] using the [Taquito][0] toolkit.
 
 Taquito is a [TypeScript][] library that makes interacting with the Tezos
 blockchain and smart contracts easier. It allows developers to call smart
-contracts entry points as if they were simply javascript/typescript objects.
+contracts entry points as if they were simply JavaScript/TypeScript objects.
 
 We are going to originate (the blockchain term for "deploy") a FA1.2 smart
 contract to a Tezos test network.
@@ -39,12 +39,10 @@ You can use Taquito to originate a contract if you wish to do so. To keep this
 tutorial short, we shall use the [LIGO web-ide][] to deploy a new contract to a
 Tezos testnet.
 
-> - Taquito documentation for originating contracts can be found [here][5]
-> - An example of originating the FA1.2 contract (and more!) using Taquito
->   [here][1]
-> - A [PascaLIGO implementation][] of the FA1.2 specification
-> - A [CameLIGO implementation][] of the FA1.2 specification
-> - A [ReasonLIGO implementation][] of the FA1.2 specification
+> * Taquito documentation for originating contracts can be found [here][5]
+> * An example of originating the FA1.2 contract (and more!) using Taquito
+> [here][1]
+> * A [CameLIGO implementation][] of the FA1.2 specification
 
 To deploy your asset contract;
 
@@ -53,10 +51,10 @@ To deploy your asset contract;
 1. Choose the "Deploy" action under the "Configure" pick-list.
 1. In the "Storage" field, you shall see the initial data for this Smart
    Contract. You must update two items:
-   _ Replace `YOUR_TZ_ADDRESS` with the address you copied from your faucet
-   file earlier
-   _ Replace _both_ occurrences of `TOKENS` with the total number of tokens
-   you wish to issue.
+       * Replace `YOUR_TZ_ADDRESS` with the address you copied from your faucet
+     file earlier
+       * Replace *both* occurrences of `TOKENS` with the total number of tokens
+     you wish to issue.
 1. With the "Deploy" action selected, Click "Run". The contract deployment
    process shall begin (and may take a couple of minutes).
 1. When the deploy is complete, copy the address of the newly originated
@@ -70,7 +68,7 @@ address from your faucet key.
 
 Let's use Taquito to transfer some tokens!
 
-> We assume you have a new javascript or typescript project, and you are using
+> We assume you have a new JavaScript or TypeScript project, and you are using
 > `npm`.
 
 Install Taquito in your new project
