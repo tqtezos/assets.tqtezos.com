@@ -11,7 +11,7 @@ FA1.2 contract written in [PascaLIGO][] using the [Taquito][0] toolkit.
 
 Taquito is a [TypeScript][] library that makes interacting with the Tezos
 blockchain and smart contracts easier. It allows developers to call smart
-contracts entry points as if they were simply javascript/typescript objects.
+contracts entry points as if they were simply JavaScript/TypeScript objects.
 
 We are going to originate (the blockchain term for "deploy") a FA1.2 smart
 contract to a Tezos test network.
@@ -42,9 +42,7 @@ Tezos testnet.
 > * Taquito documentation for originating contracts can be found [here][5]
 > * An example of originating the FA1.2 contract (and more!) using Taquito
 > [here][1]
-> * A [PascaLIGO implementation][] of the FA1.2 specification
 > * A [CameLIGO implementation][] of the FA1.2 specification
-> * A [ReasonLIGO implementation][] of the FA1.2 specification
 
 To deploy your asset contract;
 
@@ -70,7 +68,7 @@ address from your faucet key.
 
 Let's use Taquito to transfer some tokens!
 
-> We assume you have a new javascript or typescript project, and you are using
+> We assume you have a new JavaScript or TypeScript project, and you are using
 > `npm`.
 
 Install Taquito in your new project
@@ -84,7 +82,7 @@ Create a new file to contain our example, called `fa_taquito.ts`
 Import the main taquito package into your project.
 
 ```js
-const { Tezos } = require('@taquito/taquito')
+const { TezosToolkit } = require("@taquito/taquito")
 ```
 
 The following code loads and imports the private key from the `faucet.json` file
@@ -93,33 +91,38 @@ convenient for development and testing, but use in production is
 discouraged. Use a real wallet or HSM backed remote signer for production.
 
 ```js
-const fs = require("fs");
-const { email, password, mnemonic, secret } = JSON.parse(fs.readFileSync('./faucet.json').toString())
+const { InMemorySigner, importKey } = require("@taquito/signer")
+const fs = require("fs")
+const { email, password, mnemonic, secret } = JSON.parse(
+  fs.readFileSync("./faucet.json").toString()
+)
 
-Tezos.setProvider({ rpc: 'https://api.tez.ie/rpc/delphinet' })
-Tezos.importKey(email, password, mnemonic.join(" "), secret)
+const Tezos = new TezosToolkit("https://api.tez.ie/rpc/edonet")
+Tezos.setProvider({ signer: new InMemorySigner() })
+
+importKey(Tezos, email, password, mnemonic.join(" "), secret)
 ```
 
 Next, we shall query the chain for the contract we originated earlier.
 
 ```js
-await const contract = await Tezos.contract.at('KT1...your_address_from_earlier')
+const contract = await Tezos.contract.at("KT1...your_address_from_earlier")
 ```
 
 When this code executes, Taquito fetches the contract code from the chain, and
 dynamically generate methods on your contract object that correspond to the
 FA1.2 entry points. These methods are the "abstraction" that Taquito provides to
-make working with smart contracts more intuitive from a javascript perspective.
+make working with smart contracts more intuitive from a JavaScript perspective.
 
 We can now make a transfer of our asset contract tokens between your address and
 another arbitrary address.
 
 To transfer `2` tokens is as easy as calling `contract.methods.transfer()`.
-Let's set up a `src` and `dst` variable first.
+Let's set up a `pkhSrc` and `pkhDst` variable first.
 
 ```js
-const pkhSrc = await Tezos.signer.publicKeyHash())
-const pkhDst =  "tz1eY5Aqa1kXDFoiebL28emyXFoneAoVg1zh"
+const pkhSrc = await Tezos.signer.publicKeyHash()
+const pkhDst = "tz1eY5Aqa1kXDFoiebL28emyXFoneAoVg1zh"
 ```
 
 Now we will call the `transfer` method on our contract.
@@ -150,6 +153,4 @@ Tezos smart contract.
 [LIGO]: https://ligolang.org/
 [LIGO web-ide]: https://ide.ligolang.org/
 [TypeScript]: https://www.typescriptlang.org/
-[PascaLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.ligo
 [CameLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.mligo
-[ReasonLIGO implementation]: https://gitlab.com/ligolang/ligo/-/blob/dev/src/test/contracts/FA1.2.religo
