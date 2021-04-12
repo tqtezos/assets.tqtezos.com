@@ -160,65 +160,7 @@ This sequence of operations was run:
                   (pair (nat %vested)
                         (pair %schedule (timestamp %epoch) (pair (nat %secondsPerTick) (nat %tokensPerTick))))) ;
           code { DUP ;
-                 CAR ;
-                 DIP { CDR } ;
-                 IF_LEFT
-                   { SWAP ;
-                     DUP ;
-                     DIP { CAR ;
-                           CDR ;
-                           SENDER ;
-                           COMPARE ;
-                           EQ ;
-                           IF { DIP { NIL operation } ; SET_DELEGATE ; CONS } { FAILWITH } } ;
-                     SWAP ;
-                     PAIR }
-                   { PAIR ;
-                     DUP ;
-                     CAR ;
-                     DIP { CDR ;
-                           DUP ;
-                           DIP { CAR } ;
-                           CDR ;
-                           DUP ;
-                           DIP { CDR } ;
-                           DUP ;
-                           CDR ;
-                           DIP { CAR } } ;
-                     DUP ;
-                     DIP { DIP { DIP { DUP } ;
-                                 DUP ;
-                                 CAR ;
-                                 NOW ;
-                                 SUB ;
-                                 DIP { CDR ; CAR } ;
-                                 EDIV ;
-                                 IF_NONE { FAILWITH } { CAR } ;
-                                 SUB ;
-                                 ISNAT } ;
-                           SWAP ;
-                           IF_NONE
-                             { FAILWITH }
-                             { DIP { DUP } ; SWAP ; COMPARE ; LE ; IF { ADD } { FAILWITH } } ;
-                           DIP { DUP } ;
-                           SWAP ;
-                           DIP { PAIR ; SWAP ; DUP } ;
-                           CDR ;
-                           CDR } ;
-                     MUL ;
-                     SWAP ;
-                     CAR ;
-                     CONTRACT unit ;
-                     IF_NONE
-                       { FAILWITH }
-                       { SWAP ;
-                         PUSH mutez 1 ;
-                         MUL ;
-                         UNIT ;
-                         TRANSFER_TOKENS ;
-                         DIP { NIL operation } ;
-                         CONS } ;
-                     DIP { PAIR } ;
+                 ..
                      PAIR } } }
         Initial storage:
           (Pair (Pair "tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm" "tz1QS8VYYVDjv7iReBzXeheL6x63A1oATTj8")
