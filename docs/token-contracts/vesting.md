@@ -294,6 +294,11 @@ To (un)set the delegate, call `setDelegate` as the `delegate_admin`.
 Here we unset the delegate by submitting `None` for the `arg`ument. The delegate
 may be set to `delegate_address` by submitting `Some delegate_address` instead.
 
+NOTE: This contract does not have a `(unit %default)` entrypoint, which is
+expected to receive Tez from delegators. One could:
+- Add a `(unit %default)`, e.g. using the [`vesting_tez` LIGO module](https://github.com/tqtezos/vesting-contract/tree/master/ligo)
+- Arrange for delegation rewards to be sent by vesting `0 ticks` or to another `address`
+
 ```bash
 $ tezos-client --wait none transfer 0 from $DELEGATE_ADMIN_ADDRESS to $VESTING_TEZ \
   --entrypoint setDelegate --arg None
