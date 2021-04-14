@@ -4,7 +4,7 @@ title: Getting started with the Vesting contract
 sidebar_label: Vesting Contract Quick Start
 ---
 
-# Introduction
+## Introduction
 
 A _money stream_ is a series of payments at regular intervals, such as a salary,
 subscription, or other contractual disbursement.
@@ -15,7 +15,7 @@ updated each second and anyone may vest available funds to the target address.
 
 An example of the Vesting Contract may be found [on Edo2Net](https://better-call.dev/edo2net/KT1VdxSaoxxwBb7s9ZWDCbvR4NN54qfkwE1Q/operations).
 
-## Use Cases
+### Use Cases
 
 - Salaries
 - Grants
@@ -31,7 +31,7 @@ An example of the Vesting Contract may be found [on Edo2Net](https://better-call
 - "Reversible" fundraising: introduced [at Devcon4 by @frozeman](https://cryptoindia.io/lukso-ama-recap/),
   investors' funds are held in streaming contracts and returned as the project evolves.
 
-# Vesting Contract
+## Vesting Contract
 
 The Vesting Contract holds Tez and periodically allows some of them to be
 transferred to a fixed address, i.e. "_vested_":
@@ -52,7 +52,7 @@ The number of tokens that may be transferred at a given time is specified by a
 - `(nat %mutez_per_tick)`: The number of additional `mutez` that may be vested
   each tick after `start_time`
 
-## Vesting Schedule Example
+### Vesting Schedule Example
 
 Suppose we originate the contract with `60 mutez` and then set:
 - `timestamp := now`
@@ -63,22 +63,22 @@ Then we can have the following scenarios:
 
 - One minute after origination, anyone may trigger the flush of `1 mutez`.
 - If no one flushes the contract after origination, `10 minutes` later,
-  anyone may trigger the flush of _up to_ `10 Mutez`.
-- If the maximum number is flushed `5 minutes` after origination (`5 Mutez`),
-  anyone may flush up to `10 Mutez` `10 minutes` later
+  anyone may trigger the flush of _up to_ `10 mutez`.
+- If the maximum number is flushed `5 minutes` after origination (`5 mutez`),
+  anyone may flush up to `10 mutez` `10 minutes` later
 - One hour (`60 minutes`) after origination, the entire balance of the contract may be flushed.
 
 
-## Setting Up
+### Setting Up
 
-### Tezos-client
+#### Tezos-client
 
 Follow instructions in [Client Setup](/docs/setup/1-tezos-client) to set up
   `tezos-client` and create a test network wallet with two addresses.
 
-### Originate and Use
+#### Originate and Use
 
-#### Storage
+##### Storage
 
 ```ocaml
 Pair (Pair target_address
@@ -91,10 +91,9 @@ Pair (Pair target_address
 
 - `(address %target_address)`: The `address` that Tez are vested to
 - `(address %delegate_admin)`: The `address` that may call `setDelegate`
-- `(nat %vested_ticks)`: This should be `0`; it represents the number of ticks
-  already transferred (i.e. none at origination)
+- `(nat %vested_ticks)`: The number of ticks already transferred (i.e. `0` at origination)
 - `(start_time %timestamp)`: When the vesting begins
-- `(nat %seconds_per_tick)`: The time period between allowing more Tez is a `tick`
+- `(nat %seconds_per_tick)`: The number of seconds between allowing more Tez, i.e. one `tick`
 - `(nat %mutez_per_tick)`: The number of additional `mutez` that may be vested
   each tick after `start_time`
 
@@ -111,11 +110,11 @@ MUTEZ_PER_TICK=1
 Replace `TARGET_ADDRESS` and `DELEGATE_ADMIN_ADDRESS` with your two addresses
 from the [Client Setup](/docs/setup/1-tezos-client).
 
-#### Origination
+##### Origination
 
 ```bash
 $ tezos-client --wait none originate contract VestingContract \
-  transferring 1000 from tz1QS8VYYVDjv7iReBzXeheL6x63A1oATTj8 running \
+  transferring 1000 from $DELEGATE_ADMIN_ADDRESS running \
   "$(curl https://raw.githubusercontent.com/tqtezos/vesting-contract/113508ec81eec9d59f7726b7ae51a16eafc07201/contracts/vesting_tez.tz)" \
   --init "Pair (Pair \"$TARGET_ADDRESS\" \
                      \"$DELEGATE_ADMIN_ADDRESS\") \
@@ -188,9 +187,9 @@ Make a bash variable for the contract:
 VESTING_TEZ="KT1VdxSaoxxwBb7s9ZWDCbvR4NN54qfkwE1Q"
 ```
 
-#### Use
+##### Use
 
-##### Vesting
+###### Vesting
 
 To vest some Tez, submit the number of ticks to the `vest` entrypoint.
 
@@ -288,7 +287,7 @@ This sequence of operations was run:
 ```
 
 
-##### Setting The Delegate
+###### Setting The Delegate
 
 To (un)set the delegate, call `setDelegate` as the `delegate_admin`.
 
