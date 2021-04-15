@@ -43,6 +43,13 @@
         "ids": [
           "token-contracts/admin-lambda"
         ]
+      },
+      {
+        "type": "subcategory",
+        "label": "Vesting",
+        "ids": [
+          "token-contracts/vesting"
+        ]
       }
     ],
     "Oracle": ["oracle"],
