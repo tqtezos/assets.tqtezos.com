@@ -94,14 +94,13 @@ convenient for development and testing, but use in production is
 discouraged. Use a real wallet or HSM backed remote signer for production.
 
 ```js
-const { InMemorySigner, importKey } = require("@taquito/signer")
+const { importKey } = require("@taquito/signer")
 const fs = require("fs")
 const { email, password, mnemonic, secret } = JSON.parse(
   fs.readFileSync("./faucet.json").toString()
 )
 
 const Tezos = new TezosToolkit("https://api.tez.ie/rpc/edonet")
-Tezos.setProvider({ signer: new InMemorySigner() })
 
 importKey(Tezos, email, password, mnemonic.join(" "), secret)
 ```
