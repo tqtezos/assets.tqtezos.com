@@ -24,7 +24,7 @@ Start the sandbox *in the background* (will run with baking enabled):
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       tqtezos/flextesa:20210316 edobox start
+       tqtezos/flextesa:20210514 flobox start
 ```
 
 After a few seconds this should succeed:
@@ -44,7 +44,7 @@ Then, instead of using a public faucet one can just use ꜩ by importing account
 already existing in the sandbox. They are visible with:
 
 ```
- $ docker run --rm tqtezos/flextesa:20210316 edobox info
+ $ docker run --rm tqtezos/flextesa:20210514 flobox info
 
 Usable accounts:
 
@@ -113,20 +113,21 @@ example below:
 
 ```shell
 docker run --rm --name my-sandbox -e block_time=2 --detach -p 20000:20000 \
-       tqtezos/flextesa:20210316 edobox start
+       tqtezos/flextesa:20210514 flobox start
 ```
 
-The above command runs a full sandbox with the Edo protocol and a faster
+The above command runs a full sandbox with the Florence protocol and a faster
 time-between-blocks of 2 seconds.
 
-Many other parameters are set by the `edobox`
+Many other parameters are set by the `flobox`
 [script](https://gitlab.com/tezos/flextesa/-/blob/master/src/scripts/tutorial-box.sh).
 All the configuration options available can be seen with the command:
 
 ```bash
-docker run --rm -it tqtezos/flextesa:20210316 flextesarl mini-net --help
+docker run --rm -it tqtezos/flextesa:20210514 flextesarl mini-net --help
 ```
 
+<!--
 ### Try The Florence Protocol
 
 The Docker image also contains a `flobox` script:
@@ -151,7 +152,7 @@ or that the maximal length of operations has been increased to 32 KiB:
  $ tezos-client rpc get /chains/main/blocks/head/context/constants | grep max_operation_data_length
   "max_anon_ops_per_block": 132, "max_operation_data_length": 32768,
 ```
-
+-->
 
 ## Further Reading
 
