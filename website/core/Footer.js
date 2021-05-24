@@ -40,12 +40,10 @@ class Footer extends React.Component {
     <ul className="primary">
       {[
         { href: "https://tqtezos.com", text: "Home" },
-        { href: "https://tqtezos.com/partnerships", text: "Partnerships" },
+        { href: "/docs/enterprise/tezos-enterprise", text: "Enterprise" },
         { href: "/", text: "Assets" },
-        { href: "https://tqtezos.com/events", text: "Events" },
         { href: "https://medium.com/tqtezos", text: "Blog" },
         { href: "https://tqtezos.com/jobs", text: "Jobs" },
-        { href: "https://tqtezos.com/contact", text: "Contact" },
       ].map(this.link)}
       <li key="social" className="social">
         {this.socialLinks()}
@@ -57,12 +55,12 @@ class Footer extends React.Component {
     <ul className="secondary">
       {[
         {
-          href: "https://learn.tqtezos.com/files/whitepaper.html",
+          href: "https://tezos.com/whitepaper.pdf",
           text: "White Paper",
         },
         {
           href:
-            "https://tezos.com/static/position_paper-841a0a56b573afb28da16f6650152fb4.pdf",
+            "https://tezos.com/position-paper.pdf",
           text: "Position Paper",
         },
         {
@@ -70,11 +68,11 @@ class Footer extends React.Component {
           text: "Agora | Governance",
         },
         {
-          href: "https://developers.tezos.com/",
+          href: "https://tezos.com/developer-portal",
           text: "Developer Portal",
         },
         {
-          href: "https://learn.tqtezos.com/files/baking.html",
+          href: "https://wiki.tezosagora.org/learn/baking",
           text: "Start Baking",
         },
       ].map(this.link)}
