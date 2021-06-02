@@ -24,7 +24,7 @@ Start the sandbox *in the background* (will run with baking enabled):
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       tqtezos/flextesa:20210514 flobox start
+       tqtezos/flextesa:20210602 flobox start
 ```
 
 After a few seconds this should succeed:
@@ -44,7 +44,7 @@ Then, instead of using a public faucet one can just use ꜩ by importing account
 already existing in the sandbox. They are visible with:
 
 ```
- $ docker run --rm tqtezos/flextesa:20210514 flobox info
+ $ docker run --rm tqtezos/flextesa:20210602 flobox info
 
 Usable accounts:
 
@@ -113,7 +113,7 @@ example below:
 
 ```shell
 docker run --rm --name my-sandbox -e block_time=2 --detach -p 20000:20000 \
-       tqtezos/flextesa:20210514 flobox start
+       tqtezos/flextesa:20210602 flobox start
 ```
 
 The above command runs a full sandbox with the Florence protocol and a faster
@@ -124,35 +124,37 @@ Many other parameters are set by the `flobox`
 All the configuration options available can be seen with the command:
 
 ```bash
-docker run --rm -it tqtezos/flextesa:20210514 flextesarl mini-net --help
+docker run --rm -it tqtezos/flextesa:20210602 flextesarl mini-net --help
 ```
 
-<!--
-### Try The Florence Protocol
+### Try The Granada Protocol
 
-The Docker image also contains a `flobox` script:
+The Docker image also contains a `granabox` script:
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       tqtezos/flextesa:20210316 flobox start
+       tqtezos/flextesa:20210602 granabox start
 ```
 
 On can then check that the protocol hash is
-`PsFLorenaUUuikDWvMDr6fGBRG8kt3e3D3fHoXK1j1BFRxeSH4i`:
+`PtGRANADsDU8R9daYKAgWnQYAJ64omN1o3KMGVCykShA97vQbvV`:
 
 ```shell
  $ tezos-client rpc get /chains/main/blocks/head/metadata | grep protocol
-{ "protocol": "PsFLorenaUUuikDWvMDr6fGBRG8kt3e3D3fHoXK1j1BFRxeSH4i",
-  "next_protocol": "PsFLorenaUUuikDWvMDr6fGBRG8kt3e3D3fHoXK1j1BFRxeSH4i",
+
+{ "protocol": "PtGRANADsDU8R9daYKAgWnQYAJ64omN1o3KMGVCykShA97vQbvV",
+  "next_protocol": "PtGRANADsDU8R9daYKAgWnQYAJ64omN1o3KMGVCykShA97vQbvV",
 ```
 
-or that the maximal length of operations has been increased to 32 KiB:
+or that there are new constants like the one related to liquidity baking:
 
 ```shell
- $ tezos-client rpc get /chains/main/blocks/head/context/constants | grep max_operation_data_length
-  "max_anon_ops_per_block": 132, "max_operation_data_length": 32768,
+ $ tezos-client rpc get /chains/main/blocks/head/context/constants | grep liquidity
+  "liquidity_baking_subsidy": "2500000",
+  "liquidity_baking_sunset_level": 525600,
+  "liquidity_baking_escape_ema_threshold": 1000000 }
 ```
--->
+
 
 ## Further Reading
 
