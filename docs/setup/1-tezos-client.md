@@ -128,7 +128,7 @@ $ export TEZOS_CLIENT_UNSAFE_DISABLE_DISCLAIMER=yes
   PKH) with a .json extension.
 - If you look inside the file you will see a property called pkh which contains the address.
 - The public key hash is used to identify the account on the Tezos block chain
-  and can be though of as an address or account number.
+  and can be thought of as an address or account number.
 - Next we'll activate the account, passing it the path to the `.json` wallet we
   just downloaded
 - We'll first create an account for Alice, then Bob, so we can perform some test
