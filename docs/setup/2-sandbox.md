@@ -24,7 +24,7 @@ Start the sandbox *in the background* (will run with baking enabled):
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       tqtezos/flextesa:20210602 flobox start
+       tqtezos/flextesa:20210930 granabox start
 ```
 
 After a few seconds this should succeed:
@@ -43,8 +43,8 @@ tezos-client --endpoint http://localhost:20000 config update
 Then, instead of using a public faucet one can just use ꜩ by importing accounts
 already existing in the sandbox. They are visible with:
 
-```
- $ docker run --rm tqtezos/flextesa:20210602 flobox info
+```default
+ $ docker run --rm tqtezos/flextesa:20210930 granabox info
 
 Usable accounts:
 
@@ -113,46 +113,44 @@ example below:
 
 ```shell
 docker run --rm --name my-sandbox -e block_time=2 --detach -p 20000:20000 \
-       tqtezos/flextesa:20210602 flobox start
+       tqtezos/flextesa:20210930 granabox start
 ```
 
-The above command runs a full sandbox with the Florence protocol and a faster
+The above command runs a full sandbox with the Granada protocol and a faster
 time-between-blocks of 2 seconds.
 
-Many other parameters are set by the `flobox`
+Many other parameters are set by the `granabox`
 [script](https://gitlab.com/tezos/flextesa/-/blob/master/src/scripts/tutorial-box.sh).
 All the configuration options available can be seen with the command:
 
 ```bash
-docker run --rm -it tqtezos/flextesa:20210602 flextesarl mini-net --help
+docker run --rm -it tqtezos/flextesa:20210930 flextesarl mini-net --help
 ```
 
-### Try The Granada Protocol
+### Try The Hangzhou Protocol
 
-The Docker image also contains a `granabox` script:
+The Docker image also contains a `hangzbox` script:
 
 ```shell
 docker run --rm --name my-sandbox --detach -p 20000:20000 \
-       tqtezos/flextesa:20210602 granabox start
+       tqtezos/flextesa:20210930 hangzbox start
 ```
 
 On can then check that the protocol hash is
-`PtGRANADsDU8R9daYKAgWnQYAJ64omN1o3KMGVCykShA97vQbvV`:
+`PtHangzHogokSuiMHemCuowEavgYTP8J5qQ9fQS793MHYFpCY3r`:
 
 ```shell
  $ tezos-client rpc get /chains/main/blocks/head/metadata | grep protocol
 
-{ "protocol": "PtGRANADsDU8R9daYKAgWnQYAJ64omN1o3KMGVCykShA97vQbvV",
-  "next_protocol": "PtGRANADsDU8R9daYKAgWnQYAJ64omN1o3KMGVCykShA97vQbvV",
+{ "protocol": "PtHangzHogokSuiMHemCuowEavgYTP8J5qQ9fQS793MHYFpCY3r",
+  "next_protocol": "PtHangzHogokSuiMHemCuowEavgYTP8J5qQ9fQS793MHYFpCY3r",
 ```
 
-or that there are new constants like the one related to liquidity baking:
+or that the new cache for contracts is available:
 
 ```shell
- $ tezos-client rpc get /chains/main/blocks/head/context/constants | grep liquidity
-  "liquidity_baking_subsidy": "2500000",
-  "liquidity_baking_sunset_level": 525600,
-  "liquidity_baking_escape_ema_threshold": 1000000 }
+ $ tezos-client rpc get /chains/main/blocks/head/context/cache/contracts/size
+293821
 ```
 
 
