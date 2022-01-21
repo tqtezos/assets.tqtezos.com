@@ -16,11 +16,17 @@ interface to Tezos.
 With [Homebrew](https://brew.sh):
 
 ```shell
-$ brew tap serokell/tezos-packaging https://github.com/serokell/tezos-packaging.git
+$ brew tap serokell/tezos-packaging-stable https://github.com/serokell/tezos-packaging.git
 $ brew install tezos-client
 ```
 
+This will install the latest stable version of `tezos-client`
+
 `tezos-packaging` also provides prebuilt brew bottles for some macOS versions.
+
+Additionally, it's possible to install the latest RC version of `tezos-client`.
+You can find more information about RC usage in the [following doc](https://github.com/serokell/tezos-packaging/blob/master/docs/distros/macos.md)
+from the tezos-packaging repository.
 
 ### Linux (64-bit)
 
