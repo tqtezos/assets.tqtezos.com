@@ -58,7 +58,7 @@ We'll configure `tezos-client` to use a public test network Tezos node:
 
 
 ```shell
-$ tezos-client --endpoint https://rpcalpha.tzbeta.net config update
+$ tezos-client --endpoint https://hangzhounet.api.tez.ie config update
 ```
 
 `--endpoint` parameter specifies the address of the server,
@@ -122,7 +122,7 @@ $ export TEZOS_CLIENT_UNSAFE_DISABLE_DISCLAIMER=yes
 
 > With tezos-client installed we can now make a couple of test wallets.
 
-- Go to the [faucet](https://faucet.tzalpha.net/).
+- Go to the [faucet](https://teztnets.xyz/hangzhounet-faucet).
 - Complete the captcha and download the wallet in the form of a .json file.
 - The file name is the wallet address (also known as the public key hash, or
   PKH) with a .json extension.
@@ -136,7 +136,7 @@ $ export TEZOS_CLIENT_UNSAFE_DISABLE_DISCLAIMER=yes
 - Don't be alarmed by the blank `Error:` we'll explain why shortly.
 
 ```shell
-$ tezos-client activate account alice with ~/Downloads/tz1QLne6uZFxPRdRfJG8msx5RouENpJoRsfP.json
+$ tezos-client activate account alice with ~/Downloads/hangzhounet.json
 Node is bootstrapped, ready for injecting operations.
 Operation successfully injected in the node.
 Operation hash is 'oog2gMSBNWWTgHujoKViJaCed4wq27gPnLpHKQ27C5savX9ewAq'
@@ -153,7 +153,7 @@ Error:
 > omit `--wait none`, the error won't happen.
 
 Make a variable for Alice's account address  (PKH) (notice that the address
-is the same as the name of your faucet `.json` file):
+is the same as the `pkh` field of your faucet `.json` file):
 
 ```shell
 $ ALICE_ADDRESS="tz1QLne6uZFxPRdRfJG8msx5RouENpJoRsfP"
@@ -169,9 +169,11 @@ $ tezos-client get balance for $ALICE_ADDRESS
 Now, we'll create a new wallet for Bob so we can do some test transactions in
 the next section.
 
-- Go back to the [faucet](https://faucet.tzalpha.net/) and download a second wallet
+- Go back to the [faucet](https://teztnets.xyz/hangzhounet-faucet) and download a second wallet
+
+*NOTE*: update first line of terminal input with the absolute path of the second downloaded account from the faucet.
 ```shell
-$ tezos-client activate account bob with tz1ZQYMDETodNBAc2XVbhZFGme8KniuPqrSw.json
+$ tezos-client activate account bob with <SECOND_DOWNLOADED_HANGZHOUNET_ACCOUNT>.json
 $ BOB_ADDRESS="tz1ZQYMDETodNBAc2XVbhZFGme8KniuPqrSw"
 $ tezos-client get balance for $BOB_ADDRESS
 ```
