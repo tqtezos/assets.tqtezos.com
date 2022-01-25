@@ -27,10 +27,17 @@ docker run --rm --name my-sandbox --detach -p 20000:20000 \
        tqtezos/flextesa:20210930 granabox start
 ```
 
-After a few seconds this should succeed:
+After a few seconds this should succeed. If you've used tezos-client
+to connect to a node in the past, run the following to clean-up any
+left-over configuration:
 
 ```shell
 tezos-client config reset        # Cleans-up left-over configuration.
+```
+
+Bootsrap the sandbox. Some operations are only available when the node is bootstrapped:
+
+```
 tezos-client --endpoint http://localhost:20000 bootstrapped
 ```
 
