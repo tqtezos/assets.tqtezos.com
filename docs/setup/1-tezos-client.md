@@ -16,7 +16,7 @@ interface to Tezos.
 With [Homebrew](https://brew.sh):
 
 ```shell
-$ brew tap serokell/tezos-packaging-stable https://github.com/serokell/tezos-packaging.git
+$ brew tap serokell/tezos-packaging-stable https://github.com/serokell/tezos-packaging-stable.git
 $ brew install tezos-client
 ```
 
