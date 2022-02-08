@@ -499,7 +499,7 @@ gas to that address:
 ‖   mutez.
 ```
 
-Then, since the token-owner can do self-transfer we use `owner1`'s secret-key
+Then, since the token-owner can do self-transfer we use `owner0`'s secret-key
 to transfer TQ0s and TQ1s to `owner1` and `owner2`:
 
 ```sh
