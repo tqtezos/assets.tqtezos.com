@@ -64,7 +64,7 @@ We'll configure `tezos-client` to use a public test network Tezos node:
 
 
 ```shell
-$ tezos-client --endpoint https://rpcalpha.tzbeta.net config update
+$ tezos-client --endpoint https://hangzhounet.api.tez.ie config update
 ```
 
 `--endpoint` parameter specifies the address of the server,
@@ -128,7 +128,7 @@ $ export TEZOS_CLIENT_UNSAFE_DISABLE_DISCLAIMER=yes
 
 > With tezos-client installed we can now make a couple of test wallets.
 
-- Go to the [faucet](https://faucet.tzalpha.net/).
+- Go to the [faucet](https://teztnets.xyz/hangzhounet-faucet).
 - Complete the captcha and download the wallet in the form of a .json file.
 - The file name is the wallet address (also known as the public key hash, or
   PKH) with a .json extension.
